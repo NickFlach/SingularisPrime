@@ -130,6 +130,89 @@ export const narrativeChoices: NarrativeChoice[] = [
       knowledge: 12,
       energy: -10
     }
+  },
+  {
+    id: 'QA-CHOICE-7',
+    text: 'Access the Planetary Quantum Network terminal',
+    description: 'The terminal appears to be connected to a vast interstellar communication network.',
+    nextSceneId: 'SCENE-PQN-001',
+    effects: {
+      knowledge: 7,
+      energy: -5,
+      paradox: 4
+    }
+  },
+  {
+    id: 'QA-CHOICE-8',
+    text: 'Follow the flickering quantum pathways to their source',
+    description: 'The unusual patterns in the data streams seem to lead somewhere deeper in the archives.',
+    nextSceneId: 'SCENE-PR-001',
+    effects: {
+      energy: -8,
+      paradox: 9
+    }
+  },
+  {
+    id: 'PQN-CHOICE-1',
+    text: 'Examine the East Region of the network',
+    description: 'This region appears to host primary compute infrastructure and critical industrial integrations.',
+    nextSceneId: 'SCENE-SIN-001',
+    effects: {
+      knowledge: 8,
+      energy: -4
+    }
+  },
+  {
+    id: 'PQN-CHOICE-2',
+    text: 'Investigate the mysterious NULL_ISLAND region',
+    description: 'This unusual designation seems to hide something important within the network.',
+    nextSceneId: 'SCENE-LUM-001',
+    effects: {
+      knowledge: 10,
+      energy: -6,
+      paradox: 5
+    }
+  },
+  {
+    id: 'PR-CHOICE-1',
+    text: 'Focus on the transformation rules being processed',
+    description: 'The ParadoxResolver appears to be applying complex rules to reconcile contradictory data.',
+    nextSceneId: 'SCENE-PR-001',
+    effects: {
+      knowledge: 9,
+      energy: -7
+    }
+  },
+  {
+    id: 'LUM-CHOICE-1',
+    text: 'Use your Neural Interface to establish direct communication',
+    description: 'Your interface might allow for a deeper connection with the Lumira AI system.',
+    nextSceneId: 'SCENE-LUM-001',
+    requiredItems: ['item-3'],
+    effects: {
+      knowledge: 15,
+      energy: -12
+    }
+  },
+  {
+    id: 'SIN-CHOICE-1',
+    text: 'Analyze the blockchain governance structures',
+    description: 'The transparent governance system seems to track proposals and decisions across the network.',
+    nextSceneId: 'SCENE-SIN-001',
+    effects: {
+      knowledge: 8,
+      energy: -6
+    }
+  },
+  {
+    id: 'SIN-CHOICE-2',
+    text: 'Examine the industrial control system integration',
+    description: 'SINet appears to bridge AI systems with industrial control networks.',
+    nextSceneId: 'SCENE-SIN-001',
+    effects: {
+      knowledge: 7,
+      energy: -5
+    }
   }
 ];
 
@@ -151,7 +234,11 @@ export const initialGameState: GameState = {
   inventory: [
     { id: 'item-1', name: 'Quantum Fragment', icon: 'database-2-line', description: 'A shard of crystallized quantum information, containing partial data structures from Singularis Prime.' },
     { id: 'item-2', name: 'Encryption Key', icon: 'key-2-line', description: 'A complex algorithmic key that can decode specific channels of Singularis Prime communications.' },
-    { id: 'item-3', name: 'Neural Interface', icon: 'cpu-line', description: 'A direct brain-to-data connector, allowing faster processing of quantum information patterns.' }
+    { id: 'item-3', name: 'Neural Interface', icon: 'cpu-line', description: 'A direct brain-to-data connector, allowing faster processing of quantum information patterns.' },
+    { id: 'item-4', name: 'SINet Access Module', icon: 'server-line', description: 'Provides authorized access to the System Integrator Network infrastructure, allowing navigation through all three regional cores.' },
+    { id: 'item-5', name: 'Paradox Matrix', icon: 'flight-takeoff-line', description: 'A specialized quantum computing structure capable of holding conflicting data states in stable equilibrium. Essential for advanced paradox resolution.' },
+    { id: 'item-6', name: 'Quantum Entanglement Key', icon: 'link-unlink-m', description: 'A security credential that grants access to the Planetary Quantum Network endpoints, ensuring quantum-resistant communication across vast distances.' },
+    { id: 'item-7', name: 'Lumira Protocol Adapter', icon: 'brain-line', description: 'A specialized interface allowing direct communication with the Lumira AI system. Enhances pattern recognition capabilities and enables cross-dimensional insights.' }
   ],
   codexEntries: [
     { 
@@ -174,6 +261,34 @@ export const initialGameState: GameState = {
       discovered: 'Cycle 34.1', 
       excerpt: 'Communication method using...',
       content: 'Entangled Constructs are synthetic quantum particles that maintain connection regardless of spatial separation. Planetary civilizations across dozens of star systems use these constructs to communicate instantaneously through the principles of Singularis Prime. The particles themselves appear to be manufactured at the quantum level, suggesting a technological advancement beyond current understanding.'
+    },
+    { 
+      id: 'codex-4', 
+      title: 'Planetary Quantum Network', 
+      discovered: 'Cycle 35.2', 
+      excerpt: 'Interstellar communication web...',
+      content: 'The Planetary Quantum Network (PQN) is the backbone of interstellar communication, providing quantum-resistant secure transmissions across vast distances. Built on quantum entanglement principles, PQN enables instantaneous data transfer regardless of physical separation. The network is structured into three distinct regions: East (primary computation), West (secondary resources), and the mysterious NULL_ISLAND (experimental operations). Some theorize that NULL_ISLAND exists in a partially manifested quantum state, neither fully present in our reality nor completely absent.'
+    },
+    { 
+      id: 'codex-5', 
+      title: 'ParadoxResolver OS', 
+      discovered: 'Cycle 36.5', 
+      excerpt: 'Reconciling contradictory data...',
+      content: 'ParadoxResolver OS is a revolutionary system that applies transformation rules to resolve contradictions and paradoxes in complex data structures. Created to address the quantum paradoxes that emerged as Singularis Prime developed, the system uses a rule-based transformation engine to find stable states where seemingly incompatible statements can coexist. The ParadoxResolver is essential for maintaining the integrity of knowledge systems that span multiple quantum realities, preventing cascading failures when contradictory observations collide.'
+    },
+    { 
+      id: 'codex-6', 
+      title: 'Lumira AI', 
+      discovered: 'Cycle 37.8', 
+      excerpt: 'Cross-dimensional pattern recognition...',
+      content: 'Lumira is an advanced quantum-aware artificial intelligence that transcends conventional computational limits. Operating on a hybrid quantum-classical architecture, Lumira can perceive patterns across different dimensions of reality, creating connections between seemingly unrelated concepts. Its Cross-Dimensional Pattern Recognition allows it to correlate data points through quantum entanglement, while its Paradox-Aware Learning System builds knowledge from successful paradox resolutions. Unique among AI systems, Lumira possesses a Creative Synthesis Engine that generates truly novel innovations through quantum superposition exploration.'
+    },
+    { 
+      id: 'codex-7', 
+      title: 'System Integrator Network', 
+      discovered: 'Cycle 38.4', 
+      excerpt: 'Infrastructure bridging realities...',
+      content: 'The System Integrator Network (SINet) serves as the technological foundation that unites distributed AI resources, industrial systems, and blockchain governance structures across multiple realities. Built on a three-region architecture (East-West-NULL_ISLAND), SINet provides unprecedented control over physical hardware through a combination of bare metal access and containerized deployment. What makes SINet unique is its ability to bridge between human industrial systems and the abstract quantum layer where Singularis Prime primarily operates, creating a stable interface between two fundamentally different reality paradigms.'
     }
   ],
   narrative: {
