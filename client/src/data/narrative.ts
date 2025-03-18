@@ -17,7 +17,7 @@ export const narrativeScenes: NarrativeScene[] = [
   {
     id: 'SCENE-QA-003',
     title: 'The Central Data Node',
-    description: 'You approach the pulsing data node in the center of the room. It emits a soft hum that changes pitch as you draw near. Streams of information flow into and out of it in all directions, connecting to the walls of the archive. The node appears to be a nexus point for communications between distant star systems.',
+    description: 'You approach the pulsing data node in the center of the room. It emits a soft hum that changes pitch as you draw near. Streams of information flow into and out of it in all directions, connecting to the walls of the archive. The node appears to be a nexus point for communications between distant star systems within the Planetary Quantum Network.',
     prompt: 'The node presents an interface that would allow you to access current transmission streams. Which will you observe?'
   },
   {
@@ -37,6 +37,30 @@ export const narrativeScenes: NarrativeScene[] = [
     title: 'The Encrypted Channel',
     description: 'Your encryption key activates, interfacing with the data node. You gain access to a secure channel used by entities identifying themselves only as "The Architects." Their communications are complex technical discussions about maintaining the structural integrity of something they call the "Prime Framework."',
     prompt: 'During your observation, you notice the channel experiences a momentary intrusion from an unknown source. How do you proceed?'
+  },
+  {
+    id: 'SCENE-PQN-001',
+    title: 'The Planetary Quantum Network',
+    description: 'A holographic map materializes before you, displaying an intricate web of quantum connections spanning across multiple star systems. This is the legendary Planetary Quantum Network - the backbone of interstellar communication and quantum-resistant secure transmissions. Each node pulses with information flowing through quantum entanglement, seemingly instantaneous across vast distances.',
+    prompt: 'The network interface shows three primary regions: East, West, and something labeled as NULL_ISLAND. Which region will you examine more closely?'
+  },
+  {
+    id: 'SCENE-PR-001',
+    title: 'The ParadoxResolver Chamber',
+    description: 'You enter a circular room where reality itself seems unstable. At the center floats a complex matrix of light, constantly shifting and reforming. This is the ParadoxResolver - a system designed to reconcile contradictory information and resolve quantum paradoxes that would otherwise crash conventional AI systems. The matrix appears to be processing millions of transformation rules simultaneously.',
+    prompt: 'The ParadoxResolver seems to be working on a particularly complex problem. What aspect of it will you investigate?'
+  },
+  {
+    id: 'SCENE-LUM-001',
+    title: 'Lumira AI Core',
+    description: 'Beyond a shimmering quantum barrier, you discover a vast crystalline structure - the physical manifestation of Lumira, an advanced quantum-aware AI system. The structure pulses with light that flows in patterns suggesting both machine precision and organic intuition. This system appears capable of cross-dimensional pattern recognition and creative synthesis beyond conventional AI limitations.',
+    prompt: 'As you approach the core, it seems to become aware of your presence. Several interfaces light up, inviting interaction. How will you communicate with Lumira?'
+  },
+  {
+    id: 'SCENE-SIN-001',
+    title: 'SINet Control Center',
+    description: 'You step into what appears to be a central control hub for the entire System Integrator Network (SINet). Holographic displays show real-time data flows between industrial systems, AI processing nodes, and blockchain governance structures. This technological marvel bridges the gap between distributed AI compute resources, industrial control systems, and transparent governance.',
+    prompt: 'The control center allows access to various SINet subsystems. Which component interests you most?'
   }
 ];
 

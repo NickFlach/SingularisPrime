@@ -1,0 +1,188 @@
+{
+  "info": {
+    "name": "ParadoxResolver API",
+    "description": "Collection for testing ParadoxResolver OS endpoints in SINet",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get ParadoxResolver Status",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{host}}/api/paradox/status",
+          "host": ["{{host}}"],
+          "path": ["api", "paradox", "status"]
+        },
+        "description": "Check if ParadoxResolver OS is ready and connected to PlanetaryQuantumNetwork"
+      },
+      "response": []
+    },
+    {
+      "name": "Activate Planetary Quantum Network",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{host}}/api/paradox/planetary-quantum-network/activate",
+          "host": ["{{host}}"],
+          "path": ["api", "paradox", "planetary-quantum-network", "activate"]
+        },
+        "description": "Activate the connection to the Planetary Quantum Network"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Planetary Quantum Network Status",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{host}}/api/paradox/planetary-quantum-network/status",
+          "host": ["{{host}}"],
+          "path": ["api", "paradox", "planetary-quantum-network", "status"]
+        },
+        "description": "Check the current status of the Planetary Quantum Network connection"
+      },
+      "response": []
+    },
+    {
+      "name": "Resolve Paradox",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{host}}/api/paradox/resolve",
+          "host": ["{{host}}"],
+          "path": ["api", "paradox", "resolve"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"state\": [1, 2, 3, 4, 5],\n    \"options\": {\n        \"maxIterations\": 30,\n        \"convergenceThreshold\": 0.01,\n        \"quantumResistant\": true\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Resolve a paradox using the ParadoxResolver engine"
+      },
+      "response": []
+    },
+    {
+      "name": "Optimize AI Model",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{host}}/api/paradox/optimize-model",
+          "host": ["{{host}}"],
+          "path": ["api", "paradox", "optimize-model"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"model\": {\n        \"name\": \"TestModel\",\n        \"version\": \"1.0.0\",\n        \"weights\": [0.1, 0.2, 0.3, 0.4, 0.5],\n        \"biases\": [0.01, 0.02, 0.03],\n        \"layers\": 3,\n        \"metadata\": {\n            \"accuracy\": 0.85,\n            \"trainingSamples\": 10000,\n            \"epochs\": 50\n        }\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Optimize an AI model using ParadoxResolver OS"
+      },
+      "response": []
+    },
+    {
+      "name": "Analyze SCADA Data",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{host}}/api/paradox/analyze-scada",
+          "host": ["{{host}}"],
+          "path": ["api", "paradox", "analyze-scada"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"scadaData\": {\n        \"timestamp\": \"2023-10-15T12:34:56Z\",\n        \"deviceId\": \"SCADA-001\",\n        \"metrics\": [\n            [0.75, 0.12, 0.45, 0.22, 0.91],\n            [0.31, 0.56, 0.78, 0.23, 0.45],\n            [0.89, 0.32, 0.11, 0.67, 0.88]\n        ],\n        \"status\": \"online\",\n        \"connections\": 5\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Analyze SCADA data for anomalies using ParadoxResolver OS"
+      },
+      "response": []
+    },
+    {
+      "name": "Apply Quantum Resistance",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{host}}/api/paradox/quantum-resistance",
+          "host": ["{{host}}"],
+          "path": ["api", "paradox", "quantum-resistance"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"blockchainData\": {\n        \"height\": 12345,\n        \"timestamp\": \"2023-10-15T12:34:56Z\",\n        \"hash\": \"0x1a2b3c4d5e6f\",\n        \"previousHash\": \"0x9a8b7c6d5e\",\n        \"transactions\": [\n            { \"id\": \"tx1\", \"value\": 10.5 },\n            { \"id\": \"tx2\", \"value\": 5.25 },\n            { \"id\": \"tx3\", \"value\": 3.75 }\n        ],\n        \"difficulty\": 3.5\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Apply quantum resistance to blockchain data using ParadoxResolver OS"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Configuration",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{host}}/api/paradox/config",
+          "host": ["{{host}}"],
+          "path": ["api", "paradox", "config"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"maxIterations\": 100,\n    \"convergenceThreshold\": 0.0005,\n    \"quantumResistant\": true,\n    \"logLevel\": \"debug\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Update the ParadoxResolver OS configuration"
+      },
+      "response": []
+    },
+    {
+      "name": "Register Transformation Rule",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{host}}/api/paradox/rule",
+          "host": ["{{host}}"],
+          "path": ["api", "paradox", "rule"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"CustomTransformation\",\n    \"description\": \"Custom transformation rule for special use cases\",\n    \"applyProbability\": 0.8,\n    \"quantumWeight\": 0.6\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Register a new transformation rule with ParadoxResolver OS"
+      },
+      "response": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "host",
+      "value": "http://localhost:5000",
+      "type": "string"
+    }
+  ]
+} 
