@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mythos of SINGULARIS PRIME</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --space-dark: #121829;
+      --space-darker: #0B0F1A;
+      --space-light: #1E293B;
+      --quantum-blue: #2C74B3;
+      --quantum-purple: #9867C5;
+      --quantum-cyan: #4CC9F0;
+      --quantum-green: #57F287;
+    }
+    
+    body {
+      background-color: var(--space-dark);
+      background-image: 
+        radial-gradient(circle at 25% 25%, rgba(44, 116, 179, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(152, 103, 197, 0.05) 0%, transparent 50%);
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+  <script>
+    // This is needed to prevent Flash of Unstyled Content
+    const theme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.classList.add(theme);
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
