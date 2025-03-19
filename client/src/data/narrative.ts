@@ -1,4 +1,5 @@
 import { GameState, NarrativeScene, NarrativeChoice } from '@/types/game';
+import { quantumDecisions } from './quantumDecisions';
 
 // Narrative Scenes
 export const narrativeScenes: NarrativeScene[] = [
@@ -74,7 +75,8 @@ export const narrativeChoices: NarrativeChoice[] = [
     effects: {
       knowledge: 5,
       energy: -3
-    }
+    },
+    quantumDecision: quantumDecisions['treaty-interpretation']
   },
   {
     id: 'QA-CHOICE-2',
@@ -94,7 +96,8 @@ export const narrativeChoices: NarrativeChoice[] = [
     effects: {
       energy: -8,
       paradox: 7
-    }
+    },
+    quantumDecision: quantumDecisions['quantum-fluctuation']
   },
   {
     id: 'QA-CHOICE-4',
@@ -140,7 +143,8 @@ export const narrativeChoices: NarrativeChoice[] = [
       knowledge: 7,
       energy: -5,
       paradox: 4
-    }
+    },
+    quantumDecision: quantumDecisions['quantum-network-access']
   },
   {
     id: 'QA-CHOICE-8',
@@ -171,7 +175,8 @@ export const narrativeChoices: NarrativeChoice[] = [
       knowledge: 10,
       energy: -6,
       paradox: 5
-    }
+    },
+    quantumDecision: quantumDecisions['null-island-exploration']
   },
   {
     id: 'PR-CHOICE-1',
@@ -181,7 +186,8 @@ export const narrativeChoices: NarrativeChoice[] = [
     effects: {
       knowledge: 9,
       energy: -7
-    }
+    },
+    quantumDecision: quantumDecisions['paradox-resolver-quantum']
   },
   {
     id: 'LUM-CHOICE-1',
@@ -192,7 +198,8 @@ export const narrativeChoices: NarrativeChoice[] = [
     effects: {
       knowledge: 15,
       energy: -12
-    }
+    },
+    quantumDecision: quantumDecisions['lumira-consciousness']
   },
   {
     id: 'SIN-CHOICE-1',
