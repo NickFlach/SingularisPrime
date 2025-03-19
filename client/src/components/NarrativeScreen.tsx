@@ -99,6 +99,16 @@ const NarrativeScreen: React.FC = () => {
       <div className="prose prose-invert prose-sm max-w-none">
         <p className="mb-4">{currentScene.description}</p>
         <p className="text-quantum-green mb-4">{currentScene.prompt}</p>
+        
+        {quantumMessage && (
+          <div className="p-3 mt-4 mb-4 border border-quantum-cyan bg-black/50 rounded-md text-quantum-cyan font-mono text-sm">
+            <div className="flex items-center mb-2">
+              <span className="inline-block w-4 h-4 mr-2 bg-quantum-cyan animate-pulse rounded-full"></span>
+              <span className="font-bold">QUANTUM PROCESSOR SIGNAL</span>
+            </div>
+            <p>{quantumMessage}</p>
+          </div>
+        )}
       </div>
       
       <div className="mt-6 space-y-3">
@@ -132,7 +142,12 @@ const NarrativeScreen: React.FC = () => {
                 {letters[index]}
               </span>
               <div>
-                <p className="font-medium text-white">{choice.text}</p>
+                <div className="flex items-center">
+                  <p className="font-medium text-white">{choice.text}</p>
+                  {choice.quantumDecision && (
+                    <span className="ml-2 px-1.5 py-0.5 text-xs bg-quantum-purple/20 text-quantum-purple border border-quantum-purple/40 rounded font-mono">Q-DECISION</span>
+                  )}
+                </div>
                 <p className="text-xs text-gray-400 mt-1">{choice.description}</p>
                 
                 {(!hasRequiredItems || !hasRequiredAttributes) && (
