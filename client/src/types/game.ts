@@ -35,6 +35,15 @@ export interface NarrativeScene {
   prompt: string;
 }
 
+export interface QuantumDecision {
+  id: string;
+  probability: number;
+  outcome: string;
+  entanglementFactor?: number;
+  superpositionStates?: string[];
+  quantumByteCode?: string;
+}
+
 export interface NarrativeChoice {
   id: string;
   text: string;
@@ -43,21 +52,32 @@ export interface NarrativeChoice {
   requiredItems?: string[];
   requiredAttributes?: Record<string, number>;
   effects?: Record<string, number>;
+  quantumDecision?: QuantumDecision;
 }
 
 export interface Narrative {
   currentScene: NarrativeScene;
   visitedScenes: string[];
   unlockedChoices: string[];
+  quantumDecisionHistory?: QuantumDecision[];
 }
 
 export interface Location {
   name: string;
 }
 
+export interface QuantumProcessor {
+  qubits: number;
+  entanglementCapacity: number;
+  coherenceTime: number;
+  errorCorrectionLevel: number;
+  activeAlgorithms: string[];
+}
+
 export interface GameSettings {
   cycle: string;
   audioEnabled: boolean;
+  quantumProcessor?: QuantumProcessor;
 }
 
 export interface GameState {

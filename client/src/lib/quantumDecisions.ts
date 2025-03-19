@@ -1,10 +1,7 @@
 // Quantum Decision Management System
 // Provides execution logic for quantum-aware AI decision making
 
-import { z } from 'zod';
-import { quantumDecisionSchema } from '@/shared/schema';
-
-export type QuantumDecision = z.infer<typeof quantumDecisionSchema>;
+import { QuantumDecision, QuantumProcessor } from '@/types/game';
 
 // Bytecode representation patterns - these would be expanded in a real quantum system
 const BYTECODE_PATTERNS = {
@@ -138,7 +135,7 @@ export function simulateQuantumConsensus(
 /**
  * Initialize a quantum processor configuration
  */
-export function initializeQuantumProcessor(qubits: number = 8) {
+export function initializeQuantumProcessor(qubits: number = 8): QuantumProcessor {
   return {
     qubits,
     entanglementCapacity: Math.min(100, qubits * 10),
