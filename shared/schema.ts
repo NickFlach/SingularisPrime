@@ -71,6 +71,15 @@ export const narrativeSceneSchema = z.object({
   prompt: z.string(),
 });
 
+export const quantumDecisionSchema = z.object({
+  id: z.string(),
+  probability: z.number().min(0).max(1),
+  outcome: z.string(),
+  entanglementFactor: z.number().optional(),
+  superpositionStates: z.array(z.string()).optional(),
+  quantumByteCode: z.string().optional(),
+});
+
 export const narrativeChoiceSchema = z.object({
   id: z.string(),
   text: z.string(),
@@ -79,6 +88,15 @@ export const narrativeChoiceSchema = z.object({
   requiredItems: z.array(z.string()).optional(),
   requiredAttributes: z.record(z.string(), z.number()).optional(),
   effects: z.record(z.string(), z.number()).optional(),
+  quantumDecision: quantumDecisionSchema.optional(),
+});
+
+export const quantumProcessorSchema = z.object({
+  qubits: z.number().min(1).max(128),
+  entanglementCapacity: z.number().min(0).max(100),
+  coherenceTime: z.number().min(0),
+  errorCorrectionLevel: z.number().min(0).max(10),
+  activeAlgorithms: z.array(z.string()),
 });
 
 export const gameStateSchema = z.object({
@@ -90,6 +108,7 @@ export const gameStateSchema = z.object({
     currentScene: narrativeSceneSchema,
     visitedScenes: z.array(z.string()),
     unlockedChoices: z.array(z.string()),
+    quantumDecisionHistory: z.array(quantumDecisionSchema).optional(),
   }),
   location: z.object({
     name: z.string(),
@@ -97,6 +116,7 @@ export const gameStateSchema = z.object({
   game: z.object({
     cycle: z.string(),
     audioEnabled: z.boolean(),
+    quantumProcessor: quantumProcessorSchema.optional(),
   }),
 });
 

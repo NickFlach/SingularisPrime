@@ -301,6 +301,13 @@ export const initialGameState: GameState = {
   },
   game: {
     cycle: '34.7',
-    audioEnabled: true
+    audioEnabled: true,
+    quantumProcessor: {
+      qubits: 24,
+      entanglementCapacity: 85,
+      coherenceTime: 45000,
+      errorCorrectionLevel: 7,
+      activeAlgorithms: ['shor', 'grover', 'vqe', 'qaoa', 'qft', 'qml']
+    }
   }
 };
