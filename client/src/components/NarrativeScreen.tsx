@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGameState } from '@/hooks/useGameState';
 import { narrativeScenes, narrativeChoices } from '@/data/narrative';
+import { processQuantumNarrativeChoice } from '@/lib/quantumDecisions';
 
 const NarrativeScreen: React.FC = () => {
   const { gameState, updateGameState } = useGameState();
   const currentScene = gameState.narrative.currentScene;
+  const [quantumMessage, setQuantumMessage] = useState<string | null>(null);
   
   // Get available choices for the current scene
   const availableChoices = narrativeChoices.filter(
@@ -17,15 +19,44 @@ const NarrativeScreen: React.FC = () => {
     
     if (!selectedChoice) return;
     
+    // Clear any previous quantum messages
+    setQuantumMessage(null);
+    
+    // Process quantum decision if present
+    let finalNextSceneId = selectedChoice.nextSceneId;
+    let energyEffect = selectedChoice.effects?.energy || 0;
+    let knowledgeEffect = selectedChoice.effects?.knowledge || 0;
+    let paradoxEffect = selectedChoice.effects?.paradox || 0;
+    
+    if (selectedChoice.quantumDecision) {
+      // Process the quantum decision
+      const quantumResult = processQuantumNarrativeChoice(selectedChoice, gameState);
+      
+      // Apply quantum effects
+      energyEffect += quantumResult.quantumEffects.energy || 0;
+      knowledgeEffect += quantumResult.quantumEffects.knowledge || 0;
+      paradoxEffect += quantumResult.quantumEffects.paradox || 0;
+      
+      // Check for scene override
+      if (quantumResult.nextSceneOverride) {
+        finalNextSceneId = quantumResult.nextSceneOverride;
+      }
+      
+      // Display quantum message
+      if (quantumResult.message) {
+        setQuantumMessage(quantumResult.message);
+      }
+    }
+    
     // Find the next scene
-    const nextScene = narrativeScenes.find(scene => scene.id === selectedChoice.nextSceneId);
+    const nextScene = narrativeScenes.find(scene => scene.id === finalNextSceneId);
     
     if (!nextScene) return;
     
-    // Update player stats based on choice effects
-    const newEnergy = Math.max(0, Math.min(100, gameState.player.energy + (selectedChoice.effects?.energy || 0)));
-    const newKnowledge = Math.max(0, Math.min(100, gameState.player.knowledge + (selectedChoice.effects?.knowledge || 0)));
-    const newParadox = Math.max(0, Math.min(100, gameState.player.paradox + (selectedChoice.effects?.paradox || 0)));
+    // Update player stats based on choice effects and quantum effects
+    const newEnergy = Math.max(0, Math.min(100, gameState.player.energy + energyEffect));
+    const newKnowledge = Math.max(0, Math.min(100, gameState.player.knowledge + knowledgeEffect));
+    const newParadox = Math.max(0, Math.min(100, gameState.player.paradox + paradoxEffect));
     
     // Record this scene as visited
     const visitedScenes = [...gameState.narrative.visitedScenes];

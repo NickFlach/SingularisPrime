@@ -1,7 +1,7 @@
 // Quantum Decision Management System
 // Provides execution logic for quantum-aware AI decision making
 
-import { QuantumDecision, QuantumProcessor } from '@/types/game';
+import { QuantumDecision, QuantumProcessor, GameState, NarrativeChoice } from '@/types/game';
 
 // Bytecode representation patterns - these would be expanded in a real quantum system
 const BYTECODE_PATTERNS = {
@@ -142,5 +142,82 @@ export function initializeQuantumProcessor(qubits: number = 8): QuantumProcessor
     coherenceTime: 1000 * qubits, // milliseconds
     errorCorrectionLevel: Math.min(10, Math.floor(qubits / 10)),
     activeAlgorithms: ["shor", "grover", "vqe", "qaoa"],
+  };
+}
+
+/**
+ * Process a narrative choice's quantum decision to determine outcome
+ * @param choice The narrative choice containing a quantum decision
+ * @param state The current game state (to check processor capabilities)
+ * @returns An object containing the outcome and any effects
+ */
+export function processQuantumNarrativeChoice(
+  choice: NarrativeChoice,
+  state: GameState
+): { 
+  outcome: string;
+  quantumEffects: Record<string, number>;
+  nextSceneOverride?: string;
+  message?: string;
+} {
+  if (!choice.quantumDecision) {
+    return {
+      outcome: '',
+      quantumEffects: {}
+    };
+  }
+
+  const qd = choice.quantumDecision;
+  const processor = state.game.quantumProcessor;
+
+  // Check if the quantum processor is capable enough
+  const processorCapability = processor ? (
+    (processor.qubits / 30) * 
+    (processor.entanglementCapacity / 100) * 
+    (processor.errorCorrectionLevel / 10)
+  ) : 0.5; // Default capability if no processor
+  
+  // Factor in player's quantum attribute
+  const playerQuantumFactor = state.player.attributes.quantum / 100;
+  
+  // Generate quantum bytecode for the decision if not already present
+  if (!qd.quantumByteCode) {
+    qd.quantumByteCode = generateQuantumBytecode(qd);
+  }
+  
+  // Execute the quantum decision
+  const result = executeQuantumDecision(qd);
+  
+  // Generate additional effect based on processor capability and player attribute
+  const effectStrength = Math.floor(
+    processorCapability * playerQuantumFactor * 10
+  );
+  
+  // Generate outcome message based on quantum result
+  let message = '';
+  let nextSceneOverride: string | undefined = undefined;
+  
+  // Check if result is different from the default outcome
+  if (result !== qd.outcome) {
+    nextSceneOverride = result.startsWith('SCENE-') ? result : undefined;
+    message = `Quantum fluctuation detected. Reality pathway shifted to: ${result}`;
+  }
+  
+  // Simulate AI-AI consensus if entanglement factor is high enough
+  if ((qd.entanglementFactor || 0) > 0.8) {
+    const consensusResult = simulateQuantumConsensus(3, qd);
+    message += ` AI consensus: ${consensusResult.outcome} (${consensusResult.agreement.toFixed(2)})`;
+  }
+  
+  // Return outcome with quantum effects
+  return {
+    outcome: result,
+    quantumEffects: {
+      knowledge: Math.floor(effectStrength * 0.7),
+      paradox: Math.floor(effectStrength * 0.3),
+      energy: -Math.floor(effectStrength * 0.5)
+    },
+    nextSceneOverride,
+    message
   };
 }

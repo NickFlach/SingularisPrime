@@ -209,7 +209,8 @@ export const narrativeChoices: NarrativeChoice[] = [
     effects: {
       knowledge: 8,
       energy: -6
-    }
+    },
+    quantumDecision: quantumDecisions['sinet-governance']
   },
   {
     id: 'SIN-CHOICE-2',
