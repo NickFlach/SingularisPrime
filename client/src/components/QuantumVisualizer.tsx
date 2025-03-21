@@ -191,7 +191,8 @@ export function QuantumVisualizer({
 
   // Animation loop
   useEffect(() => {
-    if (!canvasRef.current || !animate) return;
+    if (!canvasRef.current) return;
+    if (!animate) return;
     
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
