@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useGameState } from '@/hooks/useGameState';
 import { aiService } from '@/lib/aiService';
 import { QuantumDecision, NarrativeChoice, UserAnswer, QuantumProcessor } from '@/types/game';
@@ -24,16 +24,16 @@ interface AIDirectorContextType {
 }
 
 // Create context
-const AIDirectorContext = React.createContext<AIDirectorContextType | undefined>(undefined);
+const AIDirectorContext = createContext<AIDirectorContextType | undefined>(undefined);
 
 // Hook for components to access AI Director
-export const useAIDirector = () => {
-  const context = React.useContext(AIDirectorContext);
+export function useAIDirector() {
+  const context = useContext(AIDirectorContext);
   if (!context) {
     throw new Error('useAIDirector must be used within an AIDirectorProvider');
   }
   return context;
-};
+}
 
 // Main AI Director Component
 export const AIDirector: React.FC<AIDirectorProps> = ({

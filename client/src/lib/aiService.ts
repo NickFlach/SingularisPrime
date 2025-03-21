@@ -140,16 +140,20 @@ class AIService {
     
     try {
       // Call server API endpoint
-      const response = await apiRequest("/api/ai/game-state", {
-        method: "POST",
-        body: JSON.stringify({
+      const response = await apiRequest(
+        "POST",
+        "/api/ai/game-state",
+        {
           playerMetrics: this.playerMetrics,
           gameState
-        })
-      });
+        }
+      );
       
-      // Return the response directly since it's already in the correct format
-      return response || defaultAdjustment;
+      // Parse the response as JSON
+      const data = await response.json();
+      
+      // Return the response data
+      return data || defaultAdjustment;
       
     } catch (error) {
       console.error("Error getting AI game adjustments:", error);
@@ -164,14 +168,18 @@ class AIService {
   ): Promise<QuantumDecision> {
     try {
       // Call server API endpoint
-      const adjustment = await apiRequest("/api/ai/quantum-decision", {
-        method: "POST",
-        body: JSON.stringify({
+      const response = await apiRequest(
+        "POST",
+        "/api/ai/quantum-decision",
+        {
           decision,
           playerMetrics: this.playerMetrics,
           gameState
-        })
-      });
+        }
+      );
+      
+      // Parse the response as JSON
+      const adjustment = await response.json();
       
       // Apply adjustments to the decision
       return {
@@ -197,17 +205,21 @@ class AIService {
   public async generateNarrativeContent(prompt: string, type: string): Promise<string> {
     try {
       // Call server API endpoint
-      const response = await apiRequest("/api/ai/completion", {
-        method: "POST",
-        body: JSON.stringify({
+      const response = await apiRequest(
+        "POST",
+        "/api/ai/completion",
+        {
           prompt,
           systemPrompt: `You are an AI narrative generator for a quantum-themed game called Singularis Prime. Generate ${type} content that is scientifically informed, engaging, and fits within the quantum reality theme.`,
           maxTokens: 300,
           temperature: 0.7
-        })
-      });
+        }
+      );
       
-      return response?.content || "Content generation failed.";
+      // Parse the response as JSON
+      const data = await response.json();
+      
+      return data?.content || "Content generation failed.";
       
     } catch (error) {
       console.error("Error generating narrative content:", error);
