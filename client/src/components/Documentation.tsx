@@ -403,45 +403,77 @@ const Documentation: React.FC = () => {
                   
                   {selectedDocument?.section.id === 'paradox-engine' && (
                     <>
-                      <Link href="/documentation?category=quantum-mechanics#superposition" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'quantum-mechanics', 'superposition')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Quantum Superposition
-                      </Link>
-                      <Link href="/documentation?category=singularis-prime-tech#lumira-ai" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      </a>
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'singularis-prime-tech', 'lumira-ai')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Lumira AI
-                      </Link>
+                      </a>
                     </>
                   )}
                   
                   {selectedDocument?.section.id === 'lumira-ai' && (
                     <>
-                      <Link href="/documentation?category=singularis-prime-tech#sinet" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'singularis-prime-tech', 'sinet')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> SINet
-                      </Link>
-                      <Link href="/documentation?category=singularis-prime-tech#paradox-engine" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      </a>
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'singularis-prime-tech', 'paradox-engine')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Paradox Engine
-                      </Link>
+                      </a>
                     </>
                   )}
                   
                   {selectedDocument?.section.id === 'butterfly-basics' && (
                     <>
-                      <Link href="/documentation?category=quantum-mechanics#quantum-basics" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'quantum-mechanics', 'quantum-basics')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Quantum Basics
-                      </Link>
-                      <Link href="/documentation?category=hofstadter-butterfly#butterfly-applications" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      </a>
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'hofstadter-butterfly', 'butterfly-applications')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Applications in Decision Systems
-                      </Link>
+                      </a>
                     </>
                   )}
                   
                   {selectedDocument?.section.id === 'butterfly-applications' && (
                     <>
-                      <Link href="/documentation?category=quantum-mechanics#quantum-computing" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'quantum-mechanics', 'quantum-computing')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Quantum Computing
-                      </Link>
-                      <Link href="/documentation?category=singularis-prime-tech#paradox-engine" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      </a>
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'singularis-prime-tech', 'paradox-engine')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Paradox Engine
-                      </Link>
+                      </a>
                     </>
                   )}
                 </div>
