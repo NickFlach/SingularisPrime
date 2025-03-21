@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useGameState } from '@/hooks/useGameState';
 import { narrativeScenes, narrativeChoices } from '@/data/narrative';
 import { processQuantumNarrativeChoice } from '@/lib/quantumDecisions';
+import { QuantumVisualizerDashboard } from './QuantumVisualizerDashboard';
 
 const NarrativeScreen: React.FC = () => {
   const { gameState, updateGameState } = useGameState();
@@ -107,6 +108,13 @@ const NarrativeScreen: React.FC = () => {
               <span className="font-bold">QUANTUM PROCESSOR SIGNAL</span>
             </div>
             <p>{quantumMessage}</p>
+          </div>
+        )}
+        
+        {/* Only show quantum visualizer when a quantum choice is present */}
+        {availableChoices.some(choice => choice.quantumDecision) && (
+          <div className="mt-6 mb-4">
+            <QuantumVisualizerDashboard />
           </div>
         )}
       </div>
