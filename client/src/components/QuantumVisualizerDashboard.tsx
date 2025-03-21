@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { HofstadterButterflyVisualizer } from './HofstadterButterflyVisualizer';
 import { QuantumVisualizer } from './QuantumVisualizer';
 import { useGameState } from '@/hooks/useGameState';
+import { quantumDecisions } from '@/data/quantumDecisions';
 import { Card } from './ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Slider } from './ui/slider';
@@ -14,6 +15,7 @@ import {
   Minimize2, 
   RefreshCw
 } from 'lucide-react';
+import { QuantumDecision } from '@/types/game';
 
 /**
  * A dashboard component that displays various quantum visualizations
@@ -74,11 +76,12 @@ export function QuantumVisualizerDashboard() {
     }
     
     // Otherwise, find quantum decisions associated with the current scene
-    const relevantDecisions = Object.values(quantumDecisions)
+    const relevantDecisions = Object.values(quantumDecisions) as QuantumDecision[];
+    const matchingDecisions = relevantDecisions
       .filter(qd => qd.outcome === currentSceneId || qd.outcome.includes(currentSceneId.split('-')[1]));
     
-    if (relevantDecisions.length > 0) {
-      return relevantDecisions[0].id;
+    if (matchingDecisions.length > 0) {
+      return matchingDecisions[0].id;
     }
     
     // Fallback - generate an ID based on player state
