@@ -60,18 +60,50 @@ export function QuantumVisualizerDashboard() {
   const size = expanded ? 500 : 280;
   const butterflyHeight = expanded ? 300 : 180;
   
-  // Generate a fake decision ID from the current state for demonstration
-  const generateDecisionId = () => {
+  // Get available quantum decisions from the narrative
+  const getActiveQuantumDecisions = () => {
+    // Check if we have any quantum decisions in the history
+    const history = gameState.narrative.quantumDecisionHistory || [];
+    
+    // Get the current scene ID
+    const currentSceneId = gameState.narrative.currentScene.id;
+    
+    // If we have history, use the most recent decision first
+    if (history.length > 0) {
+      return history[history.length - 1].id;
+    }
+    
+    // Otherwise, find quantum decisions associated with the current scene
+    const relevantDecisions = Object.values(quantumDecisions)
+      .filter(qd => qd.outcome === currentSceneId || qd.outcome.includes(currentSceneId.split('-')[1]));
+    
+    if (relevantDecisions.length > 0) {
+      return relevantDecisions[0].id;
+    }
+    
+    // Fallback - generate an ID based on player state
     const timestamp = Date.now().toString(16).slice(-6);
     const playerQ = (player?.attributes.quantum || 0).toString(16);
     return `QD-${playerQ}-${timestamp}`;
   };
   
-  const [decisionId, setDecisionId] = useState(generateDecisionId());
+  const [decisionId, setDecisionId] = useState(() => getActiveQuantumDecisions());
   
-  // Refresh the decision ID
+  // Refresh the decision ID - either rotate through history or generate a new one
   const refreshDecision = () => {
-    setDecisionId(generateDecisionId());
+    const history = gameState.narrative.quantumDecisionHistory || [];
+    
+    if (history.length > 1) {
+      // Find current index in history
+      const currentIndex = history.findIndex(qd => qd.id === decisionId);
+      
+      // Get next or wrap around to start
+      const nextIndex = (currentIndex + 1) % history.length;
+      setDecisionId(history[nextIndex].id);
+    } else {
+      // Just regenerate if we don't have multiple history entries
+      setDecisionId(getActiveQuantumDecisions());
+    }
   };
   
   // Toggle between expanded and collapsed states
