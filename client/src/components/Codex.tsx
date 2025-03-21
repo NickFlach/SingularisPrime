@@ -7,6 +7,7 @@ import {
   DialogTitle, 
   DialogDescription 
 } from '@/components/ui/dialog';
+import { Link } from 'wouter';
 
 const Codex: React.FC = () => {
   const { gameState } = useGameState();

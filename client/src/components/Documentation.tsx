@@ -169,6 +169,45 @@ const Documentation: React.FC = () => {
   // Find the currently selected category
   const currentCategory = documentationData.find(cat => cat.id === selectedCategory);
   
+  // Check URL parameters and hash on component mount
+  useEffect(() => {
+    // Check if there's a category parameter in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    
+    if (categoryParam) {
+      setSelectedCategory(categoryParam);
+      
+      // If there's a hash in the URL, scroll to that section after a short delay
+      if (window.location.hash) {
+        const sectionId = window.location.hash.substring(1);
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+            
+            // Find the section and open it in the dialog
+            documentationData.forEach(category => {
+              category.sections.forEach(section => {
+                if (section.id === sectionId) {
+                  handleOpenDocument(section, category.id);
+                  return;
+                }
+                
+                section.subsections?.forEach(subsection => {
+                  if (subsection.id === sectionId) {
+                    handleOpenDocument(section, category.id);
+                    return;
+                  }
+                });
+              });
+            });
+          }
+        }, 300);
+      }
+    }
+  }, []);
+  
   const handleSelectCategory = (categoryId: string) => {
     setSelectedCategory(categoryId);
   };
@@ -211,6 +250,7 @@ const Documentation: React.FC = () => {
                     <AccordionItem 
                       key={section.id} 
                       value={section.id}
+                      id={section.id}
                       className="border-b border-gray-700"
                     >
                       <AccordionTrigger className="text-quantum-cyan hover:text-quantum-blue">
@@ -223,7 +263,7 @@ const Documentation: React.FC = () => {
                         {section.subsections && section.subsections.length > 0 && (
                           <div className="pl-4 border-l border-gray-700 mt-3 space-y-2">
                             {section.subsections.map(subsection => (
-                              <div key={subsection.id} className="text-sm">
+                              <div key={subsection.id} id={subsection.id} className="text-sm">
                                 <h4 className="text-quantum-blue font-bold">{subsection.title}</h4>
                                 <p className="text-gray-400">{subsection.content.substring(0, 100)}...</p>
                               </div>
@@ -268,13 +308,96 @@ const Documentation: React.FC = () => {
               {selectedDocument?.section.subsections && selectedDocument.section.subsections.length > 0 && (
                 <div className="mt-6 space-y-6">
                   {selectedDocument.section.subsections.map(subsection => (
-                    <div key={subsection.id} className="border-l-4 border-quantum-blue pl-4">
+                    <div key={subsection.id} id={`dialog-${subsection.id}`} className="border-l-4 border-quantum-blue pl-4">
                       <h3 className="text-xl text-quantum-blue font-orbitron mb-2">{subsection.title}</h3>
                       <p className="text-gray-300">{subsection.content}</p>
                     </div>
                   ))}
                 </div>
               )}
+              
+              {/* Related Topics */}
+              <div className="mt-8 pt-6 border-t border-gray-700">
+                <h3 className="text-lg text-quantum-cyan font-orbitron mb-3">Related Topics</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {selectedDocument?.section.id === 'quantum-basics' && (
+                    <>
+                      <Link href="/documentation?category=hofstadter-butterfly#butterfly-basics" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Butterfly Pattern Basics
+                      </Link>
+                      <Link href="/documentation?category=singularis-prime-tech#lumira-ai" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Lumira AI
+                      </Link>
+                    </>
+                  )}
+                  
+                  {selectedDocument?.section.id === 'quantum-computing' && (
+                    <>
+                      <Link href="/documentation?category=singularis-prime-tech#paradox-engine" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Paradox Engine
+                      </Link>
+                      <Link href="/documentation?category=hofstadter-butterfly#butterfly-applications" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Butterfly Applications
+                      </Link>
+                    </>
+                  )}
+                  
+                  {selectedDocument?.section.id === 'sinet' && (
+                    <>
+                      <Link href="/documentation?category=singularis-prime-tech#lumira-ai" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Lumira AI
+                      </Link>
+                      <Link href="/documentation?category=singularis-prime-tech#paradox-engine" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Paradox Engine
+                      </Link>
+                    </>
+                  )}
+                  
+                  {selectedDocument?.section.id === 'paradox-engine' && (
+                    <>
+                      <Link href="/documentation?category=quantum-mechanics#superposition" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Quantum Superposition
+                      </Link>
+                      <Link href="/documentation?category=singularis-prime-tech#lumira-ai" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Lumira AI
+                      </Link>
+                    </>
+                  )}
+                  
+                  {selectedDocument?.section.id === 'lumira-ai' && (
+                    <>
+                      <Link href="/documentation?category=singularis-prime-tech#sinet" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> SINet
+                      </Link>
+                      <Link href="/documentation?category=singularis-prime-tech#paradox-engine" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Paradox Engine
+                      </Link>
+                    </>
+                  )}
+                  
+                  {selectedDocument?.section.id === 'butterfly-basics' && (
+                    <>
+                      <Link href="/documentation?category=quantum-mechanics#quantum-basics" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Quantum Basics
+                      </Link>
+                      <Link href="/documentation?category=hofstadter-butterfly#butterfly-applications" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Applications in Decision Systems
+                      </Link>
+                    </>
+                  )}
+                  
+                  {selectedDocument?.section.id === 'butterfly-applications' && (
+                    <>
+                      <Link href="/documentation?category=quantum-mechanics#quantum-computing" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Quantum Computing
+                      </Link>
+                      <Link href="/documentation?category=singularis-prime-tech#paradox-engine" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                        <i className="ri-link mr-1"></i> Paradox Engine
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
           </ScrollArea>
         </DialogContent>
