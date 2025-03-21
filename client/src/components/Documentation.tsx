@@ -5,6 +5,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useGameState } from '@/hooks/useGameState';
+import { Link } from 'wouter';
 
 // Define the document interface
 interface DocSection {
