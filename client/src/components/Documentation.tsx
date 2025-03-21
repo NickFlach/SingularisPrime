@@ -5,7 +5,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useGameState } from '@/hooks/useGameState';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 
 // Define the document interface
 interface DocSection {
@@ -166,6 +166,7 @@ const Documentation: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>(documentationData[0]?.id || '');
   const [openDocDialog, setOpenDocDialog] = useState<boolean>(false);
   const [selectedDocument, setSelectedDocument] = useState<{section: DocSection, category: string} | null>(null);
+  const [, setLocation] = useLocation();
   
   // Find the currently selected category
   const currentCategory = documentationData.find(cat => cat.id === selectedCategory);
@@ -221,6 +222,28 @@ const Documentation: React.FC = () => {
   const closeDocumentDialog = () => {
     setOpenDocDialog(false);
     setSelectedDocument(null);
+  };
+  
+  // Custom handler for related topic links
+  const handleRelatedTopicClick = (e: React.MouseEvent<HTMLAnchorElement>, categoryId: string, sectionId: string) => {
+    e.preventDefault();
+    
+    // Set the category
+    setSelectedCategory(categoryId);
+    
+    // Find the section to open
+    const category = documentationData.find(cat => cat.id === categoryId);
+    if (category) {
+      const section = category.sections.find(s => s.id === sectionId);
+      if (section) {
+        // Open the document in the dialog
+        handleOpenDocument(section, categoryId);
+        
+        // Update the URL for reference without actually navigating
+        setLocation(`/documentation?category=${categoryId}#${sectionId}`, { replace: true });
+        return;
+      }
+    }
   };
 
   return (
@@ -323,34 +346,58 @@ const Documentation: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {selectedDocument?.section.id === 'quantum-basics' && (
                     <>
-                      <Link href="/documentation?category=hofstadter-butterfly#butterfly-basics" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'hofstadter-butterfly', 'butterfly-basics')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Butterfly Pattern Basics
-                      </Link>
-                      <Link href="/documentation?category=singularis-prime-tech#lumira-ai" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      </a>
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'singularis-prime-tech', 'lumira-ai')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Lumira AI
-                      </Link>
+                      </a>
                     </>
                   )}
                   
                   {selectedDocument?.section.id === 'quantum-computing' && (
                     <>
-                      <Link href="/documentation?category=singularis-prime-tech#paradox-engine" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'singularis-prime-tech', 'paradox-engine')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Paradox Engine
-                      </Link>
-                      <Link href="/documentation?category=hofstadter-butterfly#butterfly-applications" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      </a>
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'hofstadter-butterfly', 'butterfly-applications')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Butterfly Applications
-                      </Link>
+                      </a>
                     </>
                   )}
                   
                   {selectedDocument?.section.id === 'sinet' && (
                     <>
-                      <Link href="/documentation?category=singularis-prime-tech#lumira-ai" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'singularis-prime-tech', 'lumira-ai')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Lumira AI
-                      </Link>
-                      <Link href="/documentation?category=singularis-prime-tech#paradox-engine" className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center">
+                      </a>
+                      <a 
+                        href="#" 
+                        onClick={(e) => handleRelatedTopicClick(e, 'singularis-prime-tech', 'paradox-engine')}
+                        className="text-quantum-blue hover:text-quantum-purple text-sm flex items-center"
+                      >
                         <i className="ri-link mr-1"></i> Paradox Engine
-                      </Link>
+                      </a>
                     </>
                   )}
                   
