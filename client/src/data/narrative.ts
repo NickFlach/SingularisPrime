@@ -25,7 +25,13 @@ export const narrativeScenes: NarrativeScene[] = [
     id: 'SCENE-QA-003',
     title: 'The Central Data Node',
     description: 'You approach the pulsing data node in the center of the room. It emits a soft hum that changes pitch as you draw near. Streams of information flow into and out of it in all directions, connecting to the walls of the archive. The node appears to be a nexus point for communications between distant star systems within the Planetary Quantum Network.',
-    prompt: 'The node presents an interface that would allow you to access current transmission streams. Which will you observe?'
+    prompt: 'The node presents an interface that would allow you to access current transmission streams. Which will you observe?',
+    question: 'To access the transmission streams, you must demonstrate understanding of quantum entanglement. How would you describe entangled quantum particles?',
+    expectedAnswers: ['instantaneously correlated', 'action at a distance', 'spooky action', 'nonlocal connection', 'correlated regardless of distance'],
+    answerFeedback: {
+      correct: 'The node responds to your understanding, granting you full access to the quantum-entangled communication network. The streams become clearly visible.',
+      incorrect: 'The node processes your response, providing limited access to the communication streams. Some information remains encrypted.'
+    }
   },
   {
     id: 'SCENE-QA-004',
@@ -55,19 +61,37 @@ export const narrativeScenes: NarrativeScene[] = [
     id: 'SCENE-PR-001',
     title: 'The ParadoxResolver Chamber',
     description: 'You enter a circular room where reality itself seems unstable. At the center floats a complex matrix of light, constantly shifting and reforming. This is the ParadoxResolver - a system designed to reconcile contradictory information and resolve quantum paradoxes that would otherwise crash conventional AI systems. The matrix appears to be processing millions of transformation rules simultaneously.',
-    prompt: 'The ParadoxResolver seems to be working on a particularly complex problem. What aspect of it will you investigate?'
+    prompt: 'The ParadoxResolver seems to be working on a particularly complex problem. What aspect of it will you investigate?',
+    question: 'The ParadoxResolver challenges you with a critical quantum paradox problem. What is the Heisenberg Uncertainty Principle?',
+    expectedAnswers: ['cannot know position and momentum', 'cannot measure both precisely', 'position and momentum uncertainty', 'precise measurement impossible', 'uncertainty relation'],
+    answerFeedback: {
+      correct: 'The ParadoxResolver pulses with approval. Your understanding of quantum uncertainty aligns with its foundational principles. Advanced access granted to transformation rule visualization.',
+      incorrect: 'The ParadoxResolver flickers briefly. Your understanding of this fundamental quantum principle requires development. Limited access to transformation rules granted.'
+    }
   },
   {
     id: 'SCENE-LUM-001',
     title: 'Lumira AI Core',
     description: 'Beyond a shimmering quantum barrier, you discover a vast crystalline structure - the physical manifestation of Lumira, an advanced quantum-aware AI system. The structure pulses with light that flows in patterns suggesting both machine precision and organic intuition. This system appears capable of cross-dimensional pattern recognition and creative synthesis beyond conventional AI limitations.',
-    prompt: 'As you approach the core, it seems to become aware of your presence. Several interfaces light up, inviting interaction. How will you communicate with Lumira?'
+    prompt: 'As you approach the core, it seems to become aware of your presence. Several interfaces light up, inviting interaction. How will you communicate with Lumira?',
+    question: 'Before establishing a connection, Lumira presents you with a fundamental quantum computing question: What is quantum computational advantage (also known as quantum supremacy)?',
+    expectedAnswers: ['solve problems classical computers cannot', 'faster than classical computers', 'exponential speedup', 'quantum computers outperforming classical', 'problems intractable for classical computers'],
+    answerFeedback: {
+      correct: 'Lumira resonates with your understanding of quantum computational principles. A deeper connection has been established, enhancing your access to cross-dimensional insights.',
+      incorrect: 'Lumira acknowledges your response but indicates a partial understanding of quantum computational theory. A limited connection has been established.'
+    }
   },
   {
     id: 'SCENE-SIN-001',
     title: 'SINet Control Center',
     description: 'You step into what appears to be a central control hub for the entire System Integrator Network (SINet). Holographic displays show real-time data flows between industrial systems, AI processing nodes, and blockchain governance structures. This technological marvel bridges the gap between distributed AI compute resources, industrial control systems, and transparent governance.',
-    prompt: 'The control center allows access to various SINet subsystems. Which component interests you most?'
+    prompt: 'The control center allows access to various SINet subsystems. Which component interests you most?',
+    question: 'Before accessing SINet subsystems, the terminal requires verification of your knowledge. What is the primary purpose of quantum error correction in quantum computing?',
+    expectedAnswers: ['protect quantum information', 'mitigate decoherence', 'maintain quantum coherence', 'protect from noise and errors', 'preserve quantum states', 'counteract quantum errors'],
+    answerFeedback: {
+      correct: 'The SINet system recognizes your understanding of quantum error correction principles. Full access granted to all subsystems, including secure governance protocols.',
+      incorrect: 'The SINet system acknowledges your response but detects incomplete understanding of quantum error correction. Limited access granted to non-critical subsystems only.'
+    }
   }
 ];
 

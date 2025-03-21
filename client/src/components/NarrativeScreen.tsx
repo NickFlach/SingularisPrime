@@ -221,6 +221,87 @@ const NarrativeScreen: React.FC = () => {
           </div>
         )}
         
+        {/* Question and answer section */}
+        {currentScene.question && (
+          <div className="mt-6 mb-6 p-4 border border-quantum-purple rounded-lg bg-space-dark/60">
+            <div className="mb-3">
+              <h3 className="text-quantum-purple font-medium text-lg mb-2">Question:</h3>
+              <p className="mb-4">{currentScene.question}</p>
+              
+              <div className="flex space-x-2">
+                <Input
+                  ref={answerInputRef}
+                  type="text"
+                  placeholder="Enter your answer..."
+                  value={userAnswer}
+                  onChange={(e) => setUserAnswer(e.target.value)}
+                  disabled={answerSubmitted}
+                  className="bg-black/50 border-quantum-purple text-white"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !answerSubmitted) {
+                      handleAnswerSubmit();
+                    }
+                  }}
+                />
+                <Button 
+                  onClick={handleAnswerSubmit}
+                  disabled={answerSubmitted || userAnswer.trim() === ''}
+                  className="bg-quantum-purple hover:bg-quantum-purple/80 text-white"
+                >
+                  Submit
+                </Button>
+              </div>
+            </div>
+            
+            {answerSubmitted && answerFeedback && (
+              <div className={`mt-4 p-3 rounded-md ${answerCorrect ? 'bg-green-900/30 border border-green-500' : 'bg-red-900/30 border border-red-500'}`}>
+                <div className="flex items-center mb-2">
+                  <span className={`inline-block w-3 h-3 mr-2 rounded-full ${answerCorrect ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                  <span className="font-bold">{answerCorrect ? 'CORRECT' : 'INCORRECT'}</span>
+                </div>
+                <p>{answerFeedback}</p>
+                
+                {/* Show quantum effects if answer was submitted */}
+                {answerSubmitted && gameState.narrative.userAnswers && gameState.narrative.userAnswers.length > 0 && (
+                  <div className="mt-3 text-xs font-mono">
+                    <p className="text-gray-400 mb-1">Quantum Effects:</p>
+                    {(() => {
+                      // Extract the most recent answer record safely
+                      const userAnswers = gameState.narrative.userAnswers || [];
+                      const latestAnswer = userAnswers.length > 0 ? userAnswers[userAnswers.length - 1] : null;
+                      
+                      // Define default empty effects object with typed properties
+                      const effects = {
+                        knowledge: latestAnswer?.quantumEffects?.knowledge ?? 0,
+                        energy: latestAnswer?.quantumEffects?.energy ?? 0,
+                        paradox: latestAnswer?.quantumEffects?.paradox ?? 0
+                      };
+                      
+                      // Display effects
+                      return (
+                        <div className="grid grid-cols-3 gap-2">
+                          <div className={`p-1 rounded ${answerCorrect ? 'text-green-400' : 'text-amber-400'}`}>
+                            Knowledge: {effects.knowledge > 0 ? '+' : ''}
+                            {effects.knowledge}
+                          </div>
+                          <div className={`p-1 rounded ${answerCorrect ? 'text-blue-400' : 'text-red-400'}`}>
+                            Energy: {effects.energy > 0 ? '+' : ''}
+                            {effects.energy}
+                          </div>
+                          <div className={`p-1 rounded ${answerCorrect ? 'text-gray-400' : 'text-purple-400'}`}>
+                            Paradox: {effects.paradox > 0 ? '+' : ''}
+                            {effects.paradox}
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+        
         {/* Only show quantum visualizer when a quantum choice is present */}
         {availableChoices.some(choice => choice.quantumDecision) && (
           <div className="mt-6 mb-4">
