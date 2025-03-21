@@ -7,8 +7,8 @@ import {
   simulateQuantumConsensus,
   initializeQuantumProcessor,
   processQuantumNarrativeChoice
-} from '@/lib/quantumDecisions';
-import { GameState, NarrativeChoice, QuantumDecision } from '@/types/game';
+} from '../client/src/lib/quantumDecisions';
+import { GameState, NarrativeChoice, QuantumDecision } from '../client/src/types/game';
 
 // Mock data for testing
 const mockQuantumDecision: QuantumDecision = {
