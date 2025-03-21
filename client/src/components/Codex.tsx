@@ -68,6 +68,57 @@ const Codex: React.FC = () => {
           <div className="py-4 max-h-96 overflow-y-auto">
             <div className="prose prose-invert prose-sm max-w-none font-mono">
               <p>{entryData?.content || entryData?.excerpt}</p>
+              
+              {/* Related Documentation Links */}
+              {entryData && (
+                <div className="mt-6 pt-4 border-t border-gray-700">
+                  <h4 className="text-quantum-cyan text-sm font-bold mb-2">Related Documentation</h4>
+                  <div className="space-y-2">
+                    {entryData.id === 'codex-1' && (
+                      <Link href="/documentation?category=singularis-prime-tech" className="text-quantum-blue hover:text-quantum-purple flex items-center">
+                        <i className="ri-book-2-line mr-2"></i>
+                        Singularis Prime Technology
+                      </Link>
+                    )}
+                    {entryData.id === 'codex-2' && (
+                      <Link href="/documentation?category=singularis-prime-tech#paradox-engine" className="text-quantum-blue hover:text-quantum-purple flex items-center">
+                        <i className="ri-book-2-line mr-2"></i>
+                        Paradox Engine Documentation
+                      </Link>
+                    )}
+                    {entryData.id === 'codex-3' && (
+                      <Link href="/documentation?category=quantum-mechanics#entanglement" className="text-quantum-blue hover:text-quantum-purple flex items-center">
+                        <i className="ri-book-2-line mr-2"></i>
+                        Quantum Entanglement Theory
+                      </Link>
+                    )}
+                    {entryData.id === 'codex-4' && (
+                      <Link href="/documentation?category=singularis-prime-tech#sinet-architecture" className="text-quantum-blue hover:text-quantum-purple flex items-center">
+                        <i className="ri-book-2-line mr-2"></i>
+                        Three-Region Architecture
+                      </Link>
+                    )}
+                    {entryData.id === 'codex-5' && (
+                      <Link href="/documentation?category=singularis-prime-tech#paradox-resolver" className="text-quantum-blue hover:text-quantum-purple flex items-center">
+                        <i className="ri-book-2-line mr-2"></i>
+                        ParadoxResolver OS Documentation
+                      </Link>
+                    )}
+                    {entryData.id === 'codex-6' && (
+                      <Link href="/documentation?category=singularis-prime-tech#lumira-ai" className="text-quantum-blue hover:text-quantum-purple flex items-center">
+                        <i className="ri-book-2-line mr-2"></i>
+                        Lumira AI Technical Documentation
+                      </Link>
+                    )}
+                    {entryData.id === 'codex-7' && (
+                      <Link href="/documentation?category=singularis-prime-tech#sinet" className="text-quantum-blue hover:text-quantum-purple flex items-center">
+                        <i className="ri-book-2-line mr-2"></i>
+                        SINet Complete Documentation
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </DialogContent>

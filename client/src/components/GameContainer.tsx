@@ -63,11 +63,9 @@ const GameContainer: React.FC = () => {
             <i className="ri-save-line mr-2"></i>
             <span className="hidden sm:inline">Save</span>
           </button>
-          <Link href="/documentation">
-            <a className="px-3 py-2 rounded hover:bg-space-dark transition flex items-center text-quantum-cyan">
-              <i className="ri-book-open-line mr-2"></i>
-              <span className="hidden sm:inline">Docs</span>
-            </a>
+          <Link href="/documentation" className="px-3 py-2 rounded hover:bg-space-dark transition flex items-center text-quantum-cyan">
+            <i className="ri-book-open-line mr-2"></i>
+            <span className="hidden sm:inline">Docs</span>
           </Link>
         </nav>
       </header>

@@ -28,9 +28,7 @@ const DocumentationCenter: React.FC = () => {
 
       {/* Documentation Breadcrumbs */}
       <div className="flex items-center space-x-2 mb-6 text-sm text-gray-400">
-        <Link href="/">
-          <a className="hover:text-quantum-cyan">Game</a>
-        </Link>
+        <Link href="/" className="hover:text-quantum-cyan">Game</Link>
         <i className="ri-arrow-right-s-line"></i>
         <span className="text-quantum-cyan">Documentation</span>
       </div>
@@ -43,29 +41,21 @@ const DocumentationCenter: React.FC = () => {
             <h3 className="font-orbitron text-lg text-quantum-cyan mb-3">Quick Links</h3>
             
             <div className="space-y-2">
-              <Link href="/">
-                <a className="block p-2 rounded hover:bg-space-dark transition text-gray-300 hover:text-quantum-cyan">
-                  <i className="ri-gamepad-line mr-2"></i>
-                  Return to Game
-                </a>
+              <Link href="/" className="block p-2 rounded hover:bg-space-dark transition text-gray-300 hover:text-quantum-cyan">
+                <i className="ri-gamepad-line mr-2"></i>
+                Return to Game
               </Link>
-              <Link href="/documentation?category=quantum-mechanics">
-                <a className="block p-2 rounded hover:bg-space-dark transition text-gray-300 hover:text-quantum-cyan">
-                  <i className="ri-atom-line mr-2"></i>
-                  Quantum Mechanics
-                </a>
+              <Link href="/documentation?category=quantum-mechanics" className="block p-2 rounded hover:bg-space-dark transition text-gray-300 hover:text-quantum-cyan">
+                <i className="ri-atom-line mr-2"></i>
+                Quantum Mechanics
               </Link>
-              <Link href="/documentation?category=singularis-prime-tech">
-                <a className="block p-2 rounded hover:bg-space-dark transition text-gray-300 hover:text-quantum-cyan">
-                  <i className="ri-server-line mr-2"></i>
-                  Singularis Prime Technology
-                </a>
+              <Link href="/documentation?category=singularis-prime-tech" className="block p-2 rounded hover:bg-space-dark transition text-gray-300 hover:text-quantum-cyan">
+                <i className="ri-server-line mr-2"></i>
+                Singularis Prime Technology
               </Link>
-              <Link href="/documentation?category=hofstadter-butterfly">
-                <a className="block p-2 rounded hover:bg-space-dark transition text-gray-300 hover:text-quantum-cyan">
-                  <i className="ri-butterfly-line mr-2"></i>
-                  Hofstadter's Butterfly
-                </a>
+              <Link href="/documentation?category=hofstadter-butterfly" className="block p-2 rounded hover:bg-space-dark transition text-gray-300 hover:text-quantum-cyan">
+                <i className="ri-butterfly-line mr-2"></i>
+                Hofstadter's Butterfly
               </Link>
             </div>
             
