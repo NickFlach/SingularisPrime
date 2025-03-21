@@ -33,6 +33,12 @@ export interface NarrativeScene {
   title: string;
   description: string;
   prompt: string;
+  question?: string;
+  expectedAnswers?: string[];
+  answerFeedback?: {
+    correct?: string;
+    incorrect?: string;
+  };
 }
 
 export interface QuantumDecision {
@@ -55,11 +61,21 @@ export interface NarrativeChoice {
   quantumDecision?: QuantumDecision;
 }
 
+export interface UserAnswer {
+  sceneId: string;
+  question: string;
+  answer: string;
+  isCorrect: boolean;
+  timestamp: number;
+  quantumEffects?: Record<string, number>;
+}
+
 export interface Narrative {
   currentScene: NarrativeScene;
   visitedScenes: string[];
   unlockedChoices: string[];
   quantumDecisionHistory?: QuantumDecision[];
+  userAnswers?: UserAnswer[];
 }
 
 export interface Location {

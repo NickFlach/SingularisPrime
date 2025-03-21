@@ -69,6 +69,12 @@ export const narrativeSceneSchema = z.object({
   title: z.string(),
   description: z.string(),
   prompt: z.string(),
+  question: z.string().optional(),
+  expectedAnswers: z.array(z.string()).optional(),
+  answerFeedback: z.object({
+    correct: z.string().optional(),
+    incorrect: z.string().optional(),
+  }).optional(),
 });
 
 export const quantumDecisionSchema = z.object({
@@ -99,6 +105,15 @@ export const quantumProcessorSchema = z.object({
   activeAlgorithms: z.array(z.string()),
 });
 
+export const userAnswerSchema = z.object({
+  sceneId: z.string(),
+  question: z.string(),
+  answer: z.string(),
+  isCorrect: z.boolean(),
+  timestamp: z.number(),
+  quantumEffects: z.record(z.string(), z.number()).optional(),
+});
+
 export const gameStateSchema = z.object({
   currentScreen: z.string(),
   player: playerSchema,
@@ -109,6 +124,7 @@ export const gameStateSchema = z.object({
     visitedScenes: z.array(z.string()),
     unlockedChoices: z.array(z.string()),
     quantumDecisionHistory: z.array(quantumDecisionSchema).optional(),
+    userAnswers: z.array(userAnswerSchema).optional(),
   }),
   location: z.object({
     name: z.string(),

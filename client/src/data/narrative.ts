@@ -7,7 +7,13 @@ export const narrativeScenes: NarrativeScene[] = [
     id: 'SCENE-QA-001',
     title: 'The Quantum Archives',
     description: 'The vast chamber stretches before you, its walls lined with shimmering data streams that appear to both exist and not exist simultaneously. Quantum information dances between states, creating patterns that hint at the fundamental structure of Singularis Prime. As you step deeper into the archives, the air seems to vibrate with potential knowledge.',
-    prompt: 'A console nearby pulses with a gentle cyan light, requesting input. What will you investigate?'
+    prompt: 'A console nearby pulses with a gentle cyan light, requesting input. What will you investigate?',
+    question: 'Before you can proceed, the system requires verification of your quantum knowledge. What is the primary principle of quantum superposition?',
+    expectedAnswers: ['exists in multiple states', 'multiple states simultaneously', 'both states at once', 'superposition of states'],
+    answerFeedback: {
+      correct: 'The console brightens as your answer resonates with the quantum systems. Access permissions have been granted to the main archive systems.',
+      incorrect: 'The console flickers momentarily. Your understanding of quantum principles needs refinement, but partial access has been granted.'
+    }
   },
   {
     id: 'SCENE-QA-002',
