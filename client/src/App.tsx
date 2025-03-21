@@ -6,6 +6,8 @@ import NotFound from "@/pages/not-found";
 import SingularisPrime from "@/pages/SingularisPrime";
 import DocumentationCenter from "@/pages/DocumentationCenter";
 import { GameStateProvider } from "./hooks/useGameState";
+import { AIDirector } from "@/components/AIDirector";
+import AIConsole from "@/components/AIConsole";
 
 function Router() {
   return (
@@ -21,8 +23,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <GameStateProvider>
-        <Router />
-        <Toaster />
+        <AIDirector enabled={true} analysisInterval={30000}>
+          <Router />
+          <Toaster />
+          <AIConsole minimized={true} />
+        </AIDirector>
       </GameStateProvider>
     </QueryClientProvider>
   );

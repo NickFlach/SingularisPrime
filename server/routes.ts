@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { gameStateSchema, insertGameSaveSchema } from "@shared/schema";
+import { handleAICompletion, handleQuantumDecisionAdjustment, handleGameStateAdjustment } from "./aiService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Game save endpoints
@@ -126,6 +127,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to login" });
     }
   });
+
+  // AI service endpoints
+  app.post("/api/ai/completion", handleAICompletion);
+  app.post("/api/ai/quantum-decision", handleQuantumDecisionAdjustment);
+  app.post("/api/ai/game-state", handleGameStateAdjustment);
 
   const httpServer = createServer(app);
   return httpServer;
