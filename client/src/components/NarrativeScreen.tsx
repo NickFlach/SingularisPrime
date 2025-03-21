@@ -3,6 +3,7 @@ import { useGameState } from '@/hooks/useGameState';
 import { narrativeScenes, narrativeChoices } from '@/data/narrative';
 import { processQuantumNarrativeChoice } from '@/lib/quantumDecisions';
 import { QuantumVisualizerDashboard } from './QuantumVisualizerDashboard';
+import { QuantumDecisionHistory } from './QuantumDecisionHistory';
 
 const NarrativeScreen: React.FC = () => {
   const { gameState, updateGameState } = useGameState();
@@ -29,6 +30,10 @@ const NarrativeScreen: React.FC = () => {
     let knowledgeEffect = selectedChoice.effects?.knowledge || 0;
     let paradoxEffect = selectedChoice.effects?.paradox || 0;
     
+    // Initialize quantum decision history if it doesn't exist
+    const quantumDecisionHistory = gameState.narrative.quantumDecisionHistory || [];
+    let updatedQuantumHistory = [...quantumDecisionHistory];
+    
     if (selectedChoice.quantumDecision) {
       // Process the quantum decision
       const quantumResult = processQuantumNarrativeChoice(selectedChoice, gameState);
@@ -46,6 +51,18 @@ const NarrativeScreen: React.FC = () => {
       // Display quantum message
       if (quantumResult.message) {
         setQuantumMessage(quantumResult.message);
+      }
+      
+      // Add the quantum decision to history
+      if (selectedChoice.quantumDecision) {
+        // Clone the quantum decision to avoid reference issues
+        const decisionRecord = { 
+          ...selectedChoice.quantumDecision,
+          timestamp: Date.now()
+        };
+        
+        // Add to history (most recent at the end)
+        updatedQuantumHistory.push(decisionRecord);
       }
     }
     
@@ -72,7 +89,8 @@ const NarrativeScreen: React.FC = () => {
         ...prev.narrative,
         currentScene: nextScene,
         visitedScenes,
-        unlockedChoices: [...prev.narrative.unlockedChoices, choiceId]
+        unlockedChoices: [...prev.narrative.unlockedChoices, choiceId],
+        quantumDecisionHistory: updatedQuantumHistory
       },
       player: {
         ...prev.player,
@@ -115,6 +133,14 @@ const NarrativeScreen: React.FC = () => {
         {availableChoices.some(choice => choice.quantumDecision) && (
           <div className="mt-6 mb-4">
             <QuantumVisualizerDashboard />
+          </div>
+        )}
+        
+        {/* Show quantum decision history if any decisions have been made */}
+        {gameState.narrative.quantumDecisionHistory && 
+         gameState.narrative.quantumDecisionHistory.length > 0 && (
+          <div className="mt-6 mb-4">
+            <QuantumDecisionHistory />
           </div>
         )}
       </div>
