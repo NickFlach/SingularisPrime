@@ -308,7 +308,9 @@ export const initialGameState: GameState = {
   narrative: {
     currentScene: narrativeScenes[0],
     visitedScenes: [],
-    unlockedChoices: []
+    unlockedChoices: [],
+    quantumDecisionHistory: [],
+    userAnswers: []
   },
   location: {
     name: 'Quantum Archives'

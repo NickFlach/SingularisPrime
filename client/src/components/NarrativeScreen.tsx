@@ -1,28 +1,120 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useGameState } from '@/hooks/useGameState';
 import { narrativeScenes, narrativeChoices } from '@/data/narrative';
 import { processQuantumNarrativeChoice } from '@/lib/quantumDecisions';
 import { QuantumVisualizerDashboard } from './QuantumVisualizerDashboard';
 import { QuantumDecisionHistory } from './QuantumDecisionHistory';
+import { UserAnswer } from '@/types/game';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { hofstadterButterflyPattern } from '@/lib/quantumDecisions';
 
 const NarrativeScreen: React.FC = () => {
   const { gameState, updateGameState } = useGameState();
   const currentScene = gameState.narrative.currentScene;
   const [quantumMessage, setQuantumMessage] = useState<string | null>(null);
+  const [userAnswer, setUserAnswer] = useState<string>('');
+  const [answerSubmitted, setAnswerSubmitted] = useState<boolean>(false);
+  const [answerFeedback, setAnswerFeedback] = useState<string | null>(null);
+  const [answerCorrect, setAnswerCorrect] = useState<boolean | null>(null);
+  const answerInputRef = useRef<HTMLInputElement>(null);
   
   // Get available choices for the current scene
   const availableChoices = narrativeChoices.filter(
     choice => choice.nextSceneId.startsWith(currentScene.id.split('-')[0])
   );
   
+  // Reset states when scene changes
+  useEffect(() => {
+    // Reset answer states when scene changes
+    setUserAnswer('');
+    setAnswerSubmitted(false);
+    setAnswerFeedback(null);
+    setAnswerCorrect(null);
+  }, [currentScene.id]);
+
+  // Handle user answer submission
+  const handleAnswerSubmit = () => {
+    if (!currentScene.question || !currentScene.expectedAnswers || userAnswer.trim() === '') {
+      return;
+    }
+
+    // Check if the answer is correct by comparing with expected answers
+    const normalizedUserAnswer = userAnswer.toLowerCase().trim();
+    const isCorrect = currentScene.expectedAnswers.some(expected => 
+      normalizedUserAnswer.includes(expected.toLowerCase())
+    );
+
+    // Show feedback based on correctness
+    if (isCorrect) {
+      setAnswerFeedback(currentScene.answerFeedback?.correct || 'Your answer is correct.');
+    } else {
+      setAnswerFeedback(currentScene.answerFeedback?.incorrect || 'Your answer is incorrect.');
+    }
+
+    setAnswerCorrect(isCorrect);
+    setAnswerSubmitted(true);
+
+    // Apply quantum effects based on answer
+    let knowledgeEffect = isCorrect ? 10 : 3;
+    let energyEffect = isCorrect ? -2 : -5;
+    let paradoxEffect = isCorrect ? 0 : 4;
+
+    // Use quantum decision mechanics to influence the effects
+    const playerQuantum = gameState.player.attributes.quantum / 100;
+    const fractalEffect = hofstadterButterflyPattern(playerQuantum, 0.5);
+    
+    // Adjust effects based on quantum mechanics
+    knowledgeEffect = Math.round(knowledgeEffect * (1 + fractalEffect * 0.5));
+    energyEffect = Math.round(energyEffect * (1 - fractalEffect * 0.2));
+    paradoxEffect = Math.round(paradoxEffect * (1 + fractalEffect * 0.3));
+
+    // Create a user answer record for history
+    const userAnswerRecord: UserAnswer = {
+      sceneId: currentScene.id,
+      question: currentScene.question,
+      answer: userAnswer,
+      isCorrect,
+      timestamp: Date.now(),
+      quantumEffects: {
+        knowledge: knowledgeEffect,
+        energy: energyEffect,
+        paradox: paradoxEffect
+      }
+    };
+
+    // Update player stats and save answer
+    const newEnergy = Math.max(0, Math.min(100, gameState.player.energy + energyEffect));
+    const newKnowledge = Math.max(0, Math.min(100, gameState.player.knowledge + knowledgeEffect));
+    const newParadox = Math.max(0, Math.min(100, gameState.player.paradox + paradoxEffect));
+
+    updateGameState(prev => ({
+      ...prev,
+      narrative: {
+        ...prev.narrative,
+        userAnswers: [...(prev.narrative.userAnswers || []), userAnswerRecord]
+      },
+      player: {
+        ...prev.player,
+        energy: newEnergy,
+        knowledge: newKnowledge,
+        paradox: newParadox
+      }
+    }));
+  };
+
   const handleSelectChoice = (choiceId: string) => {
     // Find the selected choice
     const selectedChoice = narrativeChoices.find(choice => choice.id === choiceId);
     
     if (!selectedChoice) return;
     
-    // Clear any previous quantum messages
+    // Clear any previous quantum messages and reset answer states
     setQuantumMessage(null);
+    setUserAnswer('');
+    setAnswerSubmitted(false);
+    setAnswerFeedback(null);
+    setAnswerCorrect(null);
     
     // Process quantum decision if present
     let finalNextSceneId = selectedChoice.nextSceneId;
