@@ -4,14 +4,14 @@
  */
 
 // Simplified type definitions to avoid import issues
-type QuantumDecision = {
+interface QuantumDecision {
   id: string;
   probability: number;
   outcome: string;
   entanglementFactor?: number;
-  superpositionStates?: string[];
+  superpositionStates?: Array<string>;
   quantumByteCode?: string;
-};
+}
 
 // Bytecode representation patterns
 const BYTECODE_PATTERNS = {
@@ -121,7 +121,7 @@ function testQuantumBytecode(): boolean {
     id: "test3",
     probability: 0.5,
     outcome: "outcome3",
-    superpositionStates: ["state1", "state2", "state3"]
+    superpositionStates: ["state1", "state2", "state3"] as string[]
   };
   
   const bytecode3 = generateQuantumBytecode(decision3);
@@ -136,7 +136,7 @@ function testQuantumBytecode(): boolean {
     probability: 0.6,
     outcome: "outcome4",
     entanglementFactor: 0.9,
-    superpositionStates: ["state1", "state2"]
+    superpositionStates: ["state1", "state2"] as string[]
   };
   
   const bytecode4 = generateQuantumBytecode(decision4);

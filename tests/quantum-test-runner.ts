@@ -89,6 +89,9 @@ runner.addTest('Hofstadter Butterfly Pattern', testHofstadterFunction);
 // Add Quantum Geometry test
 runner.addTest('Quantum Geometry Transformation', testQuantumGeometry);
 
+// Add Quantum Bytecode test
+runner.addTest('Quantum Bytecode Generation', testQuantumBytecode);
+
 // Add individual tests for the hofstadter function
 runner.addTest('Hofstadter Output Range Test', () => {
   // Test with various inputs
