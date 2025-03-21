@@ -4,12 +4,14 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import SingularisPrime from "@/pages/SingularisPrime";
+import DocumentationCenter from "@/pages/DocumentationCenter";
 import { GameStateProvider } from "./hooks/useGameState";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={SingularisPrime} />
+      <Route path="/documentation" component={DocumentationCenter} />
       <Route component={NotFound} />
     </Switch>
   );

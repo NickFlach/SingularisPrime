@@ -4,6 +4,7 @@ import { useGameState } from '@/hooks/useGameState';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Link } from 'wouter';
 
 const GameContainer: React.FC = () => {
   const { gameState, updateGameState, saveGame, isLoading } = useGameState();
@@ -62,6 +63,12 @@ const GameContainer: React.FC = () => {
             <i className="ri-save-line mr-2"></i>
             <span className="hidden sm:inline">Save</span>
           </button>
+          <Link href="/documentation">
+            <a className="px-3 py-2 rounded hover:bg-space-dark transition flex items-center text-quantum-cyan">
+              <i className="ri-book-open-line mr-2"></i>
+              <span className="hidden sm:inline">Docs</span>
+            </a>
+          </Link>
         </nav>
       </header>
 
