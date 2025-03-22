@@ -38,7 +38,7 @@ export function useAIDirector() {
 // Main AI Director Component
 export const AIDirector: React.FC<AIDirectorProps> = ({
   enabled = true,
-  analysisInterval = 60000, // Default: analyze once per minute
+  analysisInterval = 300000, // Default: analyze every 5 minutes to reduce API calls
   children
 }) => {
   const { gameState, updateGameState } = useGameState();
@@ -47,6 +47,7 @@ export const AIDirector: React.FC<AIDirectorProps> = ({
   const [processingAdjustment, setProcessingAdjustment] = useState<boolean>(false);
   const [latestRecommendation, setLatestRecommendation] = useState<string | null>(null);
   const [analysisTimer, setAnalysisTimer] = useState<NodeJS.Timeout | null>(null);
+  const [previousGameStateHash, setPreviousGameStateHash] = useState<string>("");
 
   // Toggle AI functionality
   const toggleAI = () => {
@@ -84,6 +85,22 @@ export const AIDirector: React.FC<AIDirectorProps> = ({
     }
   };
 
+  // Create a simple hash of the game state to check for significant changes
+  const getGameStateHash = (state: any): string => {
+    // Only use relevant parts of the game state that would trigger an analysis
+    const relevantState = {
+      currentScreen: state.currentScreen,
+      narrativeScene: state.narrative.currentScene.id,
+      playerAttributes: state.player.attributes,
+      inventoryCount: state.inventory.length,
+      lastDecision: state.narrative.quantumDecisionHistory.length > 0 
+        ? state.narrative.quantumDecisionHistory[state.narrative.quantumDecisionHistory.length - 1].id
+        : null
+    };
+    
+    return JSON.stringify(relevantState);
+  };
+
   // Periodic game state analysis
   useEffect(() => {
     if (!isEnabled) {
@@ -97,6 +114,13 @@ export const AIDirector: React.FC<AIDirectorProps> = ({
     // Set up interval for periodic analysis
     const timer = setInterval(async () => {
       if (!gameState || processingAdjustment) return;
+      
+      // Check if the game state has changed significantly
+      const currentHash = getGameStateHash(gameState);
+      if (currentHash === previousGameStateHash) {
+        // Skip analysis if the game state hasn't changed significantly
+        return;
+      }
       
       setProcessingAdjustment(true);
       
@@ -136,6 +160,7 @@ export const AIDirector: React.FC<AIDirectorProps> = ({
         });
         
         setLastAnalysis(new Date());
+        setPreviousGameStateHash(currentHash);
       } catch (error) {
         console.error("Error in AI Director analysis:", error);
       } finally {
@@ -149,7 +174,7 @@ export const AIDirector: React.FC<AIDirectorProps> = ({
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [isEnabled, gameState, processingAdjustment]);
+  }, [isEnabled, gameState, processingAdjustment, previousGameStateHash]);
 
   // Provider value
   const value: AIDirectorContextType = {
