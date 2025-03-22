@@ -9,7 +9,7 @@ const openai = new OpenAI({
 // Handler for general AI completion requests
 export async function handleAICompletion(req: Request, res: Response) {
   try {
-    const { prompt, systemPrompt, model = "gpt-3.5-turbo", maxTokens = 500, temperature = 0.7 } = req.body;
+    const { prompt, systemPrompt, model = "gpt-3.5-turbo-0125", maxTokens = 500, temperature = 0.7 } = req.body;
     
     if (!prompt) {
       return res.status(400).json({ error: "Prompt is required" });
@@ -81,8 +81,9 @@ export async function handleQuantumDecisionAdjustment(req: Request, res: Respons
       SuperpositionStates: [comma-separated list]
     `;
     
+    // Using gpt-3.5-turbo-0125 model which should be accessible
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-3.5-turbo-0125",
       messages: [
         {
           role: "system",
@@ -177,9 +178,9 @@ export async function handleGameStateAdjustment(req: Request, res: Response) {
       Attribute Suggestions: [any attribute adjustments]
     `;
     
-    // Using the gpt-4 model instead of gpt-3.5-turbo
+    // Using gpt-3.5-turbo-0125 model which should be accessible
     const response = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-3.5-turbo-0125",
       messages: [
         {
           role: "system",
