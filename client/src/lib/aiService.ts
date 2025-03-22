@@ -165,18 +165,15 @@ class AIService {
   ): Promise<QuantumDecision> {
     try {
       // Call server API endpoint
-      const response = await apiRequest(
-        "POST",
+      const adjustment = await apiRequest<AIQuantumDecisionAdjustment>(
         "/api/ai/quantum-decision",
+        "POST",
         {
           decision,
           playerMetrics: this.playerMetrics,
           gameState
         }
       );
-      
-      // Parse the response as JSON
-      const adjustment = await response.json();
       
       // Apply adjustments to the decision
       return {
@@ -202,9 +199,9 @@ class AIService {
   public async generateNarrativeContent(prompt: string, type: string): Promise<string> {
     try {
       // Call server API endpoint
-      const response = await apiRequest(
-        "POST",
+      const data = await apiRequest<{content: string}>(
         "/api/ai/completion",
+        "POST",
         {
           prompt,
           systemPrompt: `You are an AI narrative generator for a quantum-themed game called Singularis Prime. Generate ${type} content that is scientifically informed, engaging, and fits within the quantum reality theme.`,
@@ -212,9 +209,6 @@ class AIService {
           temperature: 0.7
         }
       );
-      
-      // Parse the response as JSON
-      const data = await response.json();
       
       return data?.content || "Content generation failed.";
       

@@ -177,8 +177,9 @@ export async function handleGameStateAdjustment(req: Request, res: Response) {
       Attribute Suggestions: [any attribute adjustments]
     `;
     
+    // Using the gpt-4 model instead of gpt-3.5-turbo
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4",
       messages: [
         {
           role: "system",
