@@ -1,18 +1,20 @@
 // This script generates placeholder audio files for development
 // In a production environment, these would be replaced with professionally composed audio
-const fs = require('fs');
-const path = require('path');
+import { promises as fs } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+// Get current file's directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Ensure audio directory exists
-const audioDir = path.join(__dirname, '../public/audio');
-if (!fs.existsSync(audioDir)) {
-  fs.mkdirSync(audioDir, { recursive: true });
-}
+const audioDir = join(__dirname, '../public/audio');
+await fs.mkdir(audioDir, { recursive: true }).catch(() => {});
 
 // Generate basic SVG-based audio WAV files for placeholders
 // This approach creates simple XML that browsers can interpret as audio
-
-const generateToneWav = (filename, frequency, duration, volume) => {
+const generateToneWav = async (filename, frequency, duration, volume) => {
   // Basic WAV header data (very simplified)
   const header = 
 `<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
@@ -24,15 +26,15 @@ const generateToneWav = (filename, frequency, duration, volume) => {
   </audio>
 </svg>`;
 
-  fs.writeFileSync(path.join(audioDir, `${filename}.svg`), header);
+  await fs.writeFile(join(audioDir, `${filename}.svg`), header);
   console.log(`Generated placeholder for ${filename}.svg`);
 };
 
 // Generate MP3 placeholders - these are just empty files that 
 // reference where real audio would go
-const generatePlaceholder = (filename) => {
+const generatePlaceholder = async (filename) => {
   const placeholderContent = `This is a placeholder for ${filename}.mp3. In production, high-quality audio would be used.`;
-  fs.writeFileSync(path.join(audioDir, `${filename}.mp3`), placeholderContent);
+  await fs.writeFile(join(audioDir, `${filename}.mp3`), placeholderContent);
   console.log(`Generated placeholder for ${filename}.mp3`);
 };
 
@@ -46,8 +48,7 @@ const audios = [
   'discovery-ambience'
 ];
 
-audios.forEach(audio => {
-  generatePlaceholder(audio);
-});
+// Using Promise.all to run all operations concurrently
+await Promise.all(audios.map(audio => generatePlaceholder(audio)));
 
 console.log('Audio placeholder generation complete');
