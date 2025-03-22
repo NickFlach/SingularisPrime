@@ -4,6 +4,12 @@ import { storage } from "./storage";
 import { z } from "zod";
 import { gameStateSchema, insertGameSaveSchema } from "@shared/schema";
 import { handleAICompletion, handleQuantumDecisionAdjustment, handleGameStateAdjustment } from "./aiService";
+import { 
+  handleXAICompletion, 
+  handleXAIQuantumDecisionAdjustment, 
+  handleXAIGameStateAdjustment,
+  handleXAIImageAnalysis
+} from "./xaiService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Game save endpoints
@@ -128,10 +134,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // AI service endpoints
+  // OpenAI service endpoints
   app.post("/api/ai/completion", handleAICompletion);
   app.post("/api/ai/quantum-decision", handleQuantumDecisionAdjustment);
   app.post("/api/ai/game-state", handleGameStateAdjustment);
+  
+  // xAI service endpoints
+  app.post("/api/xai/generate", handleXAICompletion);
+  app.post("/api/xai/quantum-decision", handleXAIQuantumDecisionAdjustment);
+  app.post("/api/xai/game-state", handleXAIGameStateAdjustment);
+  app.post("/api/xai/image-analysis", handleXAIImageAnalysis);
 
   const httpServer = createServer(app);
   return httpServer;
