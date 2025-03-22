@@ -139,9 +139,9 @@ class AIService {
     };
     
     try {
-      // Call server API endpoint
-      const data = await apiRequest<AIGameAdjustment>(
-        "/api/ai/game-state",
+      // Call xAI server API endpoint instead
+      const response = await apiRequest<{adjustments: AIGameAdjustment, model: string}>(
+        "/api/xai/game-state",
         "POST",
         {
           playerMetrics: this.playerMetrics,
@@ -150,7 +150,7 @@ class AIService {
       );
       
       // Return the response data
-      return data || defaultAdjustment;
+      return response?.adjustments || defaultAdjustment;
       
     } catch (error) {
       console.error("Error getting AI game adjustments:", error);
@@ -164,9 +164,9 @@ class AIService {
     gameState: GameState
   ): Promise<QuantumDecision> {
     try {
-      // Call server API endpoint
-      const adjustment = await apiRequest<AIQuantumDecisionAdjustment>(
-        "/api/ai/quantum-decision",
+      // Call xAI server API endpoint instead
+      const response = await apiRequest<{adjustedDecision: QuantumDecision}>(
+        "/api/xai/quantum-decision",
         "POST",
         {
           decision,
@@ -175,19 +175,8 @@ class AIService {
         }
       );
       
-      // Apply adjustments to the decision
-      return {
-        ...decision,
-        probability: adjustment?.probability !== undefined 
-          ? adjustment.probability 
-          : decision.probability,
-        entanglementFactor: adjustment?.entanglementFactor !== undefined 
-          ? adjustment.entanglementFactor 
-          : decision.entanglementFactor || 0,
-        superpositionStates: adjustment?.superpositionStates 
-          ? adjustment.superpositionStates 
-          : decision.superpositionStates,
-      };
+      // Return adjusted decision or original if no adjustment available
+      return response?.adjustedDecision || decision;
       
     } catch (error) {
       console.error("Error adjusting quantum decision:", error);
@@ -198,19 +187,17 @@ class AIService {
   // Function to generate AI-enhanced narrative content
   public async generateNarrativeContent(prompt: string, type: string): Promise<string> {
     try {
-      // Call server API endpoint
-      const data = await apiRequest<{content: string}>(
-        "/api/ai/completion",
+      // Call xAI server API endpoint instead
+      const response = await apiRequest<{content: string, model: string}>(
+        "/api/xai/completion",
         "POST",
         {
           prompt,
-          systemPrompt: `You are an AI narrative generator for a quantum-themed game called Singularis Prime. Generate ${type} content that is scientifically informed, engaging, and fits within the quantum reality theme.`,
-          maxTokens: 300,
-          temperature: 0.7
+          type: type || "narrative"
         }
       );
       
-      return data?.content || "Content generation failed.";
+      return response?.content || "Content generation failed.";
       
     } catch (error) {
       console.error("Error generating narrative content:", error);
