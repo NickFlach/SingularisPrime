@@ -96,7 +96,7 @@ export const quantumDecisions: Record<string, QuantumDecision> = {
   
   // Quantum treaty interpretation
   'treaty-interpretation': createQuantumDecision(
-    'qd-007',
+    'qd-007a',
     0.73,
     'SCENE-QA-002',
     {
