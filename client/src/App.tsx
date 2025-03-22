@@ -8,6 +8,7 @@ import DocumentationCenter from "@/pages/DocumentationCenter";
 import { GameStateProvider } from "./hooks/useGameState";
 import { AIDirector } from "@/components/AIDirector";
 import AIConsole from "@/components/AIConsole";
+import AudioManager from "@/components/AudioManager";
 
 function Router() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Router />
           <Toaster />
           <AIConsole minimized={true} />
+          <AudioManager defaultVolume={0.4} />
         </AIDirector>
       </GameStateProvider>
     </QueryClientProvider>
