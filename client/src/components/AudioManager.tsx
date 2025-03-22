@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useGameState } from '@/hooks/useGameState';
+import { useToast } from '@/hooks/use-toast';
 
 // Sound types for different game contexts
 type SoundContextType = 'intro' | 'exploration' | 'quantum' | 'narrative' | 'danger' | 'discovery';
@@ -10,8 +11,10 @@ interface AudioManagerProps {
 
 const AudioManager: React.FC<AudioManagerProps> = ({ defaultVolume = 0.5 }) => {
   const { gameState } = useGameState();
+  const { toast } = useToast();
   const [currentContext, setCurrentContext] = useState<SoundContextType>('intro');
   const [volume, setVolume] = useState(defaultVolume);
+  const [audioInitialized, setAudioInitialized] = useState(false);
   
   // Audio references
   const introAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -23,6 +26,7 @@ const AudioManager: React.FC<AudioManagerProps> = ({ defaultVolume = 0.5 }) => {
   
   // Current active audio element
   const [activeAudio, setActiveAudio] = useState<HTMLAudioElement | null>(null);
+  const [activeContext, setActiveContext] = useState<SoundContextType>('intro');
 
   // Initialize audio elements
   useEffect(() => {
@@ -34,7 +38,7 @@ const AudioManager: React.FC<AudioManagerProps> = ({ defaultVolume = 0.5 }) => {
     dangerAudioRef.current = new Audio('/audio/danger-ambience.mp3');
     discoveryAudioRef.current = new Audio('/audio/discovery-ambience.mp3');
     
-    // Set looping for all audio
+    // Set looping for all audio and add error handling
     [
       introAudioRef, 
       explorationAudioRef, 
@@ -45,8 +49,19 @@ const AudioManager: React.FC<AudioManagerProps> = ({ defaultVolume = 0.5 }) => {
     ].forEach(ref => {
       if (ref.current) {
         ref.current.loop = true;
+        
+        // Add error handlers
+        ref.current.onerror = (e) => {
+          console.warn('Audio error:', e);
+          // Don't show error toast since placeholder files are expected to fail in this demo
+        };
+        
+        // Preload metadata
+        ref.current.preload = 'metadata';
       }
     });
+
+    setAudioInitialized(true);
 
     // Clean up on unmount
     return () => {
@@ -66,7 +81,7 @@ const AudioManager: React.FC<AudioManagerProps> = ({ defaultVolume = 0.5 }) => {
     };
   }, []);
 
-  // Handle game state changes to determine audio context
+  // Map game state to audio context
   useEffect(() => {
     let newContext: SoundContextType = 'intro';
     
@@ -76,7 +91,7 @@ const AudioManager: React.FC<AudioManagerProps> = ({ defaultVolume = 0.5 }) => {
     } else if (gameState.currentScreen === 'characterCreation') {
       newContext = 'exploration';
     } else if (gameState.currentScreen === 'narrativeScreen') {
-      // Check if it's a quantum-focused scene
+      // Check scene type based on ID
       const sceneId = gameState.narrative.currentScene.id;
       
       if (sceneId.includes('QA-')) {
@@ -90,16 +105,30 @@ const AudioManager: React.FC<AudioManagerProps> = ({ defaultVolume = 0.5 }) => {
       }
     }
     
-    setCurrentContext(newContext);
-  }, [gameState.currentScreen, gameState.narrative.currentScene, gameState.player.paradox]);
+    // Only update if the context has changed to avoid unnecessary transitions
+    if (newContext !== currentContext) {
+      setCurrentContext(newContext);
+    }
+  }, [gameState.currentScreen, gameState.narrative.currentScene, gameState.player.paradox, currentContext]);
 
   // Handle volume change from settings
   useEffect(() => {
     setVolume(gameState.game.audioEnabled ? defaultVolume : 0);
-  }, [gameState.game.audioEnabled, defaultVolume]);
+    
+    // If audio was previously disabled and now enabled, we need to restart playback
+    if (gameState.game.audioEnabled && activeAudio && activeAudio.paused) {
+      try {
+        activeAudio.play().catch(e => console.warn("Audio playback failed:", e));
+      } catch (err) {
+        console.warn("Failed to resume audio:", err);
+      }
+    }
+  }, [gameState.game.audioEnabled, defaultVolume, activeAudio]);
 
-  // Fade between audio contexts
+  // Context-aware audio playback with smooth transitions
   useEffect(() => {
+    if (!audioInitialized || !gameState.game.audioEnabled) return;
+    
     // Get the new audio reference based on context
     const getAudioForContext = (context: SoundContextType): HTMLAudioElement | null => {
       switch (context) {
@@ -117,7 +146,12 @@ const AudioManager: React.FC<AudioManagerProps> = ({ defaultVolume = 0.5 }) => {
     
     if (!newAudio) return;
     
-    // Fade out current audio
+    // Skip transition if it's the same audio that's already playing
+    if (activeAudio === newAudio && activeContext === currentContext) {
+      return;
+    }
+    
+    // Smooth cross-fade between audio tracks
     const fadeOut = (audio: HTMLAudioElement, callback: () => void) => {
       let vol = audio.volume;
       const interval = setInterval(() => {
@@ -132,23 +166,39 @@ const AudioManager: React.FC<AudioManagerProps> = ({ defaultVolume = 0.5 }) => {
       }, 100);
     };
     
-    // Fade in new audio
+    // Fade in new audio with error handling
     const fadeIn = (audio: HTMLAudioElement) => {
       audio.volume = 0;
-      audio.play().catch(e => console.log("Audio play error:", e));
       
-      let vol = 0;
-      const interval = setInterval(() => {
-        if (vol < volume) {
-          vol += 0.05;
-          audio.volume = vol;
-        } else {
-          clearInterval(interval);
+      try {
+        const playPromise = audio.play();
+        
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              // Playback started successfully
+              let vol = 0;
+              const interval = setInterval(() => {
+                if (vol < volume) {
+                  vol += 0.05;
+                  audio.volume = vol;
+                } else {
+                  clearInterval(interval);
+                }
+              }, 100);
+            })
+            .catch(e => {
+              console.warn("Audio play error:", e);
+              // Browser requires user interaction to play audio
+              // Don't show error toast for placeholder files
+            });
         }
-      }, 100);
+      } catch (err) {
+        console.warn("Audio playback failed:", err);
+      }
     };
     
-    // Handle transition
+    // Handle transition between audio contexts
     if (activeAudio && activeAudio !== newAudio) {
       fadeOut(activeAudio, () => fadeIn(newAudio));
     } else if (!activeAudio) {
@@ -156,6 +206,7 @@ const AudioManager: React.FC<AudioManagerProps> = ({ defaultVolume = 0.5 }) => {
     }
     
     setActiveAudio(newAudio);
+    setActiveContext(currentContext);
     
     // Update volume when it changes
     return () => {
@@ -163,7 +214,7 @@ const AudioManager: React.FC<AudioManagerProps> = ({ defaultVolume = 0.5 }) => {
         activeAudio.volume = volume;
       }
     };
-  }, [currentContext, volume]);
+  }, [currentContext, volume, audioInitialized, gameState.game.audioEnabled, activeContext]);
 
   // This component doesn't render anything visible
   return null;

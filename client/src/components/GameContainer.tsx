@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Link } from 'wouter';
+import GameSettings from './GameSettings';
 
 const GameContainer: React.FC = () => {
   const { gameState, updateGameState, saveGame, isLoading } = useGameState();
@@ -44,17 +45,7 @@ const GameContainer: React.FC = () => {
         
         {/* Nav Menu */}
         <nav className="flex space-x-2 p-2 border border-gray-700 rounded-lg bg-space-light/80">
-          <button 
-            className="px-3 py-2 rounded hover:bg-space-dark transition flex items-center"
-            onClick={toggleAudio}
-          >
-            <i className={`ri-volume-${gameState.game.audioEnabled ? 'up' : 'mute'}-line mr-2`}></i>
-            <span className="hidden sm:inline">Audio</span>
-          </button>
-          <button className="px-3 py-2 rounded hover:bg-space-dark transition flex items-center">
-            <i className="ri-settings-3-line mr-2"></i>
-            <span className="hidden sm:inline">Settings</span>
-          </button>
+          <GameSettings />
           <button 
             className="px-3 py-2 rounded hover:bg-space-dark transition flex items-center"
             onClick={openSaveDialog}

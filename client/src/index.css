@@ -49,6 +49,22 @@
     border-color: var(--quantum-purple);
   }
   
+  .border-quantum-blue {
+    border-color: var(--quantum-cyan);
+  }
+  
+  .bg-quantum-cyan {
+    background-color: var(--quantum-cyan);
+  }
+  
+  .border-space-light {
+    border-color: var(--space-light);
+  }
+  
+  .bg-space-darker {
+    background-color: rgba(15, 23, 42, 0.95);
+  }
+  
   .terminal {
     position: relative;
     overflow: hidden;
