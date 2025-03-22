@@ -140,7 +140,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/ai/game-state", handleGameStateAdjustment);
   
   // xAI service endpoints
-  app.post("/api/xai/generate", handleXAICompletion);
+  app.post("/api/xai/completion", handleXAICompletion);
   app.post("/api/xai/quantum-decision", handleXAIQuantumDecisionAdjustment);
   app.post("/api/xai/game-state", handleXAIGameStateAdjustment);
   app.post("/api/xai/image-analysis", handleXAIImageAnalysis);
