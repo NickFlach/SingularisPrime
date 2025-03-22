@@ -140,17 +140,14 @@ class AIService {
     
     try {
       // Call server API endpoint
-      const response = await apiRequest(
-        "POST",
+      const data = await apiRequest<AIGameAdjustment>(
         "/api/ai/game-state",
+        "POST",
         {
           playerMetrics: this.playerMetrics,
           gameState
         }
       );
-      
-      // Parse the response as JSON
-      const data = await response.json();
       
       // Return the response data
       return data || defaultAdjustment;

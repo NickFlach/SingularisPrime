@@ -1,4 +1,5 @@
-import { GameState, QuantumDecision } from "@shared/schema";
+import { GameState } from "@shared/schema";
+import type { QuantumDecision } from "@/types/game";
 import { apiRequest } from "@/lib/queryClient";
 
 /**
@@ -191,7 +192,7 @@ class XAIService {
       };
       
       // Make API request to xAI endpoint
-      const response = await apiRequest('/api/xai/game-state', 'POST', {
+      const response = await apiRequest<{adjustments: XAIGameAdjustment, model: string}>('/api/xai/game-state', 'POST', {
         gameState: enrichedGameState
       });
       
@@ -217,7 +218,7 @@ class XAIService {
   ): Promise<QuantumDecision> {
     try {
       // Make API request to xAI endpoint
-      const response = await apiRequest('/api/xai/quantum-decision', 'POST', {
+      const response = await apiRequest<{adjustedDecision: QuantumDecision}>('/api/xai/quantum-decision', 'POST', {
         decision,
         gameState: {
           ...gameState,
@@ -240,7 +241,7 @@ class XAIService {
   public async generateNarrativeContent(prompt: string, type: string): Promise<string> {
     try {
       // Make API request to xAI endpoint
-      const response = await apiRequest('/api/xai/generate', 'POST', {
+      const response = await apiRequest<{content: string, model: string}>('/api/xai/generate', 'POST', {
         prompt,
         type
       });
@@ -258,7 +259,7 @@ class XAIService {
   public async analyzeImage(base64Image: string, prompt?: string): Promise<string> {
     try {
       // Make API request to xAI image analysis endpoint
-      const response = await apiRequest('/api/xai/image-analysis', 'POST', {
+      const response = await apiRequest<{analysis: string, model: string}>('/api/xai/image-analysis', 'POST', {
         base64Image,
         prompt
       });
