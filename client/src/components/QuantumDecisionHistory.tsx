@@ -62,8 +62,8 @@ export function QuantumDecisionHistory() {
       <Accordion type="single" collapsible className="w-full">
         {displayedDecisions.map((decision, index) => (
           <AccordionItem 
-            key={decision.id} 
-            value={decision.id}
+            key={`${decision.id}-${index}`}
+            value={`${decision.id}-${index}`}
             className="border-b-purple-900/30"
           >
             <AccordionTrigger className="py-3">
