@@ -1,10 +1,20 @@
 import { Request, Response } from 'express';
 import OpenAI from 'openai';
 
-// Initialize OpenAI client with API key from environment variables
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialize OpenAI client with API key from environment variables
+let openai: OpenAI | null = null;
+
+function getOpenAIClient(): OpenAI {
+  if (!openai && process.env.OPENAI_API_KEY) {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+  if (!openai) {
+    throw new Error('OpenAI API key is not configured');
+  }
+  return openai;
+}
 
 // Handler for general AI completion requests
 export async function handleAICompletion(req: Request, res: Response) {
@@ -15,7 +25,8 @@ export async function handleAICompletion(req: Request, res: Response) {
       return res.status(400).json({ error: "Prompt is required" });
     }
     
-    const response = await openai.chat.completions.create({
+    const openaiClient = getOpenAIClient();
+    const response = await openaiClient.chat.completions.create({
       model,
       messages: [
         {
@@ -82,7 +93,8 @@ export async function handleQuantumDecisionAdjustment(req: Request, res: Respons
     `;
     
     // Using gpt-3.5-turbo-0125 model which should be accessible
-    const response = await openai.chat.completions.create({
+    const openaiClient = getOpenAIClient();
+    const response = await openaiClient.chat.completions.create({
       model: "gpt-3.5-turbo-0125",
       messages: [
         {
@@ -179,7 +191,8 @@ export async function handleGameStateAdjustment(req: Request, res: Response) {
     `;
     
     // Using gpt-3.5-turbo-0125 model which should be accessible
-    const response = await openai.chat.completions.create({
+    const openaiClient = getOpenAIClient();
+    const response = await openaiClient.chat.completions.create({
       model: "gpt-3.5-turbo-0125",
       messages: [
         {
