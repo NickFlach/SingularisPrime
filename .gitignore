@@ -1,12 +1,16 @@
 # Build outputs
 build/
 out/
+dist/
 *.class
 *.jar
 *.war
 *.aar
 *.apk
 *.aab
+
+# Dependencies
+node_modules/
 
 # Gradle
 .gradle/
@@ -33,6 +37,8 @@ obj/
 # Generated files
 gen/
 generated/
+server/public
+vite.config.ts.*
 
 # Logs
 *.log
@@ -57,9 +63,9 @@ coverage/
 *.keystore
 *.jks
 secrets.properties
-local.properties
 
 # Temporary
 tmp/
 temp/
 *.tmp
+*.tar.gz
