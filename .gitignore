@@ -1,0 +1,65 @@
+# Build outputs
+build/
+out/
+*.class
+*.jar
+*.war
+*.aar
+*.apk
+*.aab
+
+# Gradle
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+local.properties
+captures/
+
+# NDK
+.cxx/
+.externalNativeBuild/
+obj/
+
+# Kotlin
+*.kotlin_module
+
+# Generated files
+gen/
+generated/
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# IDE
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Test outputs
+test-results/
+coverage/
+
+# Secrets
+*.keystore
+*.jks
+secrets.properties
+local.properties
+
+# Temporary
+tmp/
+temp/
+*.tmp

@@ -1,0 +1,179 @@
+# MSI v1.0 - Minimal Substrate Interface Contract
+# The "Hardware Promise Document" - what any substrate must guarantee
+
+version: "1.0.0"
+name: "Singularis Prime Substrate Contract"
+
+# =============================================================================
+# COGNITIVE RESET CONTRACT
+# =============================================================================
+# When power is applied, the system must present these guarantees.
+# This is the AI-era reset vector.
+
+reset_contract:
+  version: "0.1"
+  invariants:
+    - "There exists at least one deterministic execution lane"
+    - "There exists an addressable state region (persistent or volatile)"
+    - "There exists a monotonic event source (time, ticks, spikes)"
+    - "There exists a minimal I/O channel (even if symbolic)"
+
+# =============================================================================
+# SUBSTRATE REQUIREMENTS
+# =============================================================================
+
+substrate:
+  execution_lanes:
+    min: 1
+    model: "deterministic"
+    description: "At least one execution context that runs instructions in order"
+  
+  state_model:
+    options:
+      - addressable    # Traditional memory (byte-addressable)
+      - associative    # Key-value / embedding / synaptic
+      - hybrid         # Both models available
+    required: true
+  
+  time_source:
+    options:
+      - monotonic      # Always increasing clock
+      - event          # Time advances with events/spikes
+    required: true
+  
+  persistence:
+    required: false
+    description: "Optional durable storage"
+
+# =============================================================================
+# CAPABILITY CLASSES
+# =============================================================================
+
+capabilities:
+  lanes:
+    min: 1
+    max: null          # Unbounded or substrate-limited
+    realtime: false    # Best-effort on most substrates
+    policies:
+      - priority       # low | normal | high | realtime
+      - energy_budget  # low | balanced | unbounded
+      - affinity       # any | little | big | npu
+
+  events:
+    model:
+      options:
+        - queue        # FIFO delivery
+        - topic        # Pub/sub with prefix matching
+        - signal       # One-shot interrupts
+    max_topics: null
+    qos:
+      - best_effort
+      - at_least_once
+      - exactly_once
+
+  state:
+    model:
+      options:
+        - addressable
+        - associative
+        - hybrid
+    max_bytes: null
+    persistence: optional
+
+  clock:
+    model:
+      options:
+        - monotonic
+        - event
+    resolution: nanoseconds
+
+  security:
+    model:
+      options:
+        - none
+        - app_sandbox
+        - tee          # Trusted Execution Environment
+        - se           # Secure Enclave
+    attestation: optional
+
+  accelerators:
+    cpu: true          # Always present
+    gpu: optional
+    npu: optional      # Neural Processing Unit
+    dsp: optional      # Digital Signal Processor
+
+# =============================================================================
+# DOMAIN MODEL
+# =============================================================================
+# Domains provide sandboxed capability namespaces
+
+domains:
+  description: "Isolated capability containers for lanes + state + permissions"
+  
+  grants:
+    - kind: events
+      params: [topic_prefix]
+    - kind: state
+      params: [name, permissions]
+    - kind: assoc
+      params: [space, permissions]
+    - kind: clock
+      params: []
+    - kind: accel
+      params: [which]
+  
+  lifecycle:
+    - create     # Initialize with manifest
+    - grant      # Add capabilities (if not sealed)
+    - seal       # Lock capabilities permanently
+    - spawn_lane # Create execution context within domain
+
+# =============================================================================
+# BOOT SEQUENCE
+# =============================================================================
+
+boot_sequence:
+  phase_0:
+    name: "Substrate Probe"
+    actions:
+      - "Query substrate capabilities"
+      - "Verify minimum MSI requirements"
+      - "Initialize root domain"
+  
+  phase_1:
+    name: "State Initialization"
+    actions:
+      - "Map core state regions"
+      - "Initialize associative memory spaces"
+      - "Bind clock source"
+  
+  phase_2:
+    name: "Event System"
+    actions:
+      - "Initialize event bus"
+      - "Register core topics"
+  
+  phase_3:
+    name: "Cognitive Bootstrap"
+    actions:
+      - "Spawn kernel lanes"
+      - "Enter main cognitive loop"
+
+# =============================================================================
+# FUTURE EXTENSIONS
+# =============================================================================
+
+extensions:
+  neuromorphic:
+    spike_events: true
+    synaptic_state: true
+    attention_budgets: true
+    energy_constraints: true
+  
+  quantum:
+    qubit_state: optional
+    entanglement_events: optional
+  
+  distributed:
+    remote_domains: optional
+    consensus_events: optional
