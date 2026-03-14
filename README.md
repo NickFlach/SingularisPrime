@@ -1,5 +1,7 @@
 # Singularis Prime OS
 
+> **License:** [Space Child License v1.0](https://legal.spacechild.love) — Free for peaceful use. v1.x was MIT.
+
 An AI-native operating system substrate designed for neuromorphic and cognitive computing.
 
 ## Philosophy
